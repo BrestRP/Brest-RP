@@ -1,14 +1,15 @@
 /* style.css */
 :root {
     --primary-blue: #0b5ed7;
-    --primary-dark: #062b66;
-    --accent-blue: #38bdf8;
-    --discord-bg: #5865F2;
+    --accent-cyan: #38bdf8;
+    --neon-blue: #2563eb;
+    --neon-glow: rgba(37, 99, 235, 0.4);
+    --discord-color: #5865F2;
     --discord-hover: #4752C4;
     --price-green: #10b981;
-    --bg-main: #0b0f19;
-    --card-bg: rgba(22, 30, 49, 0.7);
-    --card-border: rgba(255, 255, 255, 0.08);
+    --bg-dark: #050811;
+    --card-bg: rgba(15, 23, 42, 0.75);
+    --card-border: rgba(255, 255, 255, 0.1);
     --text-white: #ffffff;
     --text-muted: #94a3b8;
 }
@@ -17,11 +18,12 @@
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+    scroll-behavior: smooth;
 }
 
 body {
     font-family: 'Poppins', Arial, sans-serif;
-    background-color: var(--bg-main);
+    background-color: var(--bg-dark);
     color: var(--text-white);
     min-height: 100vh;
     display: flex;
@@ -30,68 +32,66 @@ body {
     position: relative;
 }
 
-/* Effet de lumière en fond */
+/* Effet lumineux de fond */
 .bg-glow {
     position: absolute;
-    top: -150px;
+    top: -200px;
     left: 50%;
     transform: translateX(-50%);
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(11, 94, 215, 0.25) 0%, rgba(11, 15, 25, 0) 70%);
+    width: 900px;
+    height: 900px;
+    background: radial-gradient(circle, rgba(37, 99, 235, 0.2) 0%, rgba(5, 8, 17, 0) 70%);
     z-index: -1;
     pointer-events: none;
 }
 
-/* Header moderne */
+/* Header */
 header {
     text-align: center;
-    padding: 70px 20px 40px;
-    position: relative;
+    padding: 60px 20px 30px;
 }
 
 .badge {
-    display: inline-block;
-    background: rgba(11, 94, 215, 0.2);
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(37, 99, 235, 0.15);
     border: 1px solid rgba(56, 189, 248, 0.4);
-    color: var(--accent-blue);
-    padding: 6px 16px;
+    color: var(--accent-cyan);
+    padding: 6px 18px;
     border-radius: 50px;
     font-size: 0.85rem;
     font-weight: 600;
-    letter-spacing: 1px;
     text-transform: uppercase;
+    letter-spacing: 1px;
     margin-bottom: 15px;
-    animation: fadeInDown 0.6s ease-out;
 }
 
 header h1 {
-    font-size: 3.2rem;
-    font-weight: 800;
+    font-size: 3.5rem;
+    font-weight: 900;
     letter-spacing: -1px;
-    background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+    background: linear-gradient(180deg, #ffffff 0%, #94a3b8 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
-    animation: fadeInDown 0.8s ease-out;
 }
 
 header p {
-    font-size: 1.15rem;
     color: var(--text-muted);
+    font-size: 1.1rem;
     margin-top: 8px;
-    animation: fadeInUp 0.8s ease-out;
 }
 
-/* Barre de navigation vitrée */
+/* Navigation Vitrée */
 nav {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 20px;
-    background: rgba(11, 15, 25, 0.75);
+    gap: 15px;
+    background: rgba(10, 15, 30, 0.8);
     backdrop-filter: blur(16px);
     -webkit-backdrop-filter: blur(16px);
-    padding: 16px 20px;
+    padding: 15px 25px;
     position: sticky;
     top: 0;
     z-index: 100;
@@ -103,69 +103,292 @@ nav a {
     text-decoration: none;
     font-weight: 600;
     font-size: 0.95rem;
-    padding: 8px 18px;
-    border-radius: 10px;
+    padding: 10px 20px;
+    border-radius: 12px;
     transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
-nav a:hover, nav a.active {
+nav a:hover {
     color: var(--text-white);
     background: rgba(255, 255, 255, 0.05);
 }
 
 nav a.nav-discord {
-    background: var(--discord-bg);
+    background: var(--discord-color);
     color: white;
 }
 
 nav a.nav-discord:hover {
     background: var(--discord-hover);
-    box-shadow: 0 0 15px rgba(88, 101, 242, 0.4);
+    box-shadow: 0 0 20px rgba(88, 101, 242, 0.5);
 }
 
-/* Catalogue & cartes 3D/Glassmorphism */
+/* ========================================= */
+/* BANNIÈRE RP NEON (Style Image)             */
+/* ========================================= */
+
+.section-accueil {
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.rp-card-container {
+    width: 100%;
+    max-width: 950px;
+    background: #02040a;
+    border: 2px solid #1a2a5e;
+    border-radius: 18px;
+    padding: 16px;
+    box-shadow: 0 0 35px rgba(37, 99, 235, 0.3), inset 0 0 15px rgba(37, 99, 235, 0.1);
+}
+
+/* Header de la carte RP */
+.rp-header-bar {
+    background: #030816;
+    border: 1.5px solid #1a3278;
+    border-radius: 12px;
+    padding: 12px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    box-shadow: 0 0 15px rgba(37, 99, 235, 0.2);
+}
+
+.flag-title {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.flag-title .flag {
+    font-size: 1.6rem;
+}
+
+.flag-title h2 {
+    font-size: 1.6rem;
+    font-weight: 900;
+    letter-spacing: 6px;
+    color: #ffffff;
+    font-style: italic;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
+}
+
+.mic-icon {
+    color: #8b5cf6;
+    font-size: 1.6rem;
+    filter: drop-shadow(0 0 8px #8b5cf6);
+}
+
+/* Grille RP */
+.rp-grid {
+    display: grid;
+    grid-template-columns: 220px 1fr;
+    grid-template-rows: auto auto auto;
+    gap: 12px;
+}
+
+.rp-box {
+    background: #04091a;
+    border: 1.5px solid #182e6d;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    color: white;
+}
+
+.rp-box:hover {
+    border-color: #3b82f6;
+    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+}
+
+/* Box Discord Icon */
+.discord-icon-box {
+    grid-column: 1;
+    grid-row: 1;
+    height: 110px;
+    background: linear-gradient(135deg, #2b41b8 0%, #152166 100%);
+    font-size: 4rem;
+    color: white;
+    box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.2);
+}
+
+/* Box Discord Link */
+.discord-link-box {
+    grid-column: 2;
+    grid-row: 1;
+    height: 110px;
+    justify-content: flex-start;
+    padding-left: 30px;
+    font-size: 2.5rem;
+    font-weight: 800;
+    gap: 10px;
+}
+
+.discord-link-box .arrow {
+    color: #6366f1;
+    font-size: 3rem;
+}
+
+.discord-link-box .prefix {
+    color: #818cf8;
+}
+
+.discord-link-box .code {
+    color: #ffffff;
+    text-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
+}
+
+/* Image Box */
+.image-box {
+    grid-column: 1;
+    grid-row: 2;
+    height: 100px;
+    background: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=400&q=80') center/cover;
+    position: relative;
+    overflow: hidden;
+}
+
+.img-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(5, 12, 35, 0.2) 0%, rgba(5, 12, 35, 0.8) 100%);
+}
+
+.img-badge {
+    position: relative;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+/* Code Session Box */
+.code-box {
+    grid-column: 2;
+    grid-row: 2;
+    height: 100px;
+    flex-direction: column;
+    align-items: flex-start;
+    padding-left: 30px;
+    justify-content: center;
+    gap: 4px;
+}
+
+.code-label {
+    color: #6366f1;
+    font-size: 0.9rem;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.code-value {
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #ffffff;
+    font-family: monospace;
+}
+
+/* Mic Small Box */
+.mic-small-box {
+    grid-column: 1;
+    grid-row: 3;
+    height: 60px;
+    font-size: 1.8rem;
+    color: #8b5cf6;
+}
+
+/* Voc Obligatoire Box */
+.voc-box {
+    grid-column: 2;
+    grid-row: 3;
+    height: 60px;
+    justify-content: flex-start;
+    padding-left: 25px;
+    gap: 15px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: #38bdf8;
+}
+
+.voc-box i {
+    font-size: 1.4rem;
+}
+
+/* ========================================= */
+/* BOUTIQUE / CATALOGUE                      */
+/* ========================================= */
+
+.section-boutique {
+    padding: 40px 20px 60px;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.section-title h2 {
+    font-size: 2.2rem;
+    font-weight: 800;
+}
+
+.section-title p {
+    color: var(--text-muted);
+}
+
 .catalogue {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 30px;
-    padding: 50px 20px;
-    max-width: 1300px;
-    width: 100%;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 25px;
+    max-width: 1350px;
     margin: 0 auto;
-    flex: 1;
 }
 
 .carte {
     background: var(--card-bg);
     backdrop-filter: blur(12px);
-    border-radius: 20px;
+    border-radius: 16px;
     overflow: hidden;
     border: 1px solid var(--card-border);
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-    transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    transition: all 0.35s ease;
     display: flex;
     flex-direction: column;
-    animation: fadeIn 0.8s ease-out;
 }
 
 .carte:hover {
     transform: translateY(-8px);
-    border-color: rgba(56, 189, 248, 0.3);
-    box-shadow: 0 20px 40px rgba(11, 94, 215, 0.25);
+    border-color: rgba(56, 189, 248, 0.4);
+    box-shadow: 0 15px 35px rgba(37, 99, 235, 0.25);
 }
 
 .img-wrapper {
     width: 100%;
-    height: 210px;
+    height: 190px;
     overflow: hidden;
-    position: relative;
 }
 
 .carte img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.6s ease;
+    transition: transform 0.5s ease;
 }
 
 .carte:hover img {
@@ -173,24 +396,23 @@ nav a.nav-discord:hover {
 }
 
 .contenu {
-    padding: 24px;
+    padding: 20px;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
 }
 
 .carte h2 {
-    font-size: 1.3rem;
+    font-size: 1.25rem;
     font-weight: 700;
-    margin-bottom: 8px;
-    color: var(--text-white);
+    margin-bottom: 6px;
 }
 
 .description {
     color: var(--text-muted);
-    font-size: 0.9rem;
-    line-height: 1.5;
-    margin-bottom: 25px;
+    font-size: 0.88rem;
+    line-height: 1.4;
+    margin-bottom: 20px;
     flex-grow: 1;
 }
 
@@ -198,28 +420,25 @@ nav a.nav-discord:hover {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    gap: 15px;
-    padding-top: 15px;
-    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 12px;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .prix {
     color: var(--price-green);
-    font-size: 1.5rem;
-    font-weight: 700;
-    letter-spacing: -0.5px;
+    font-size: 1.4rem;
+    font-weight: 800;
 }
 
 .btn-acheter {
-    background: var(--discord-bg);
+    background: var(--discord-color);
     color: white;
     text-decoration: none;
     font-weight: 600;
-    font-size: 0.9rem;
-    padding: 10px 18px;
-    border-radius: 12px;
+    font-size: 0.85rem;
+    padding: 9px 16px;
+    border-radius: 10px;
     transition: all 0.3s ease;
-    box-shadow: 0 4px 12px rgba(88, 101, 242, 0.3);
     display: inline-flex;
     align-items: center;
     gap: 6px;
@@ -227,43 +446,47 @@ nav a.nav-discord:hover {
 
 .btn-acheter:hover {
     background: var(--discord-hover);
-    transform: scale(1.04);
-    box-shadow: 0 6px 18px rgba(88, 101, 242, 0.5);
+    transform: scale(1.05);
+    box-shadow: 0 4px 15px rgba(88, 101, 242, 0.5);
 }
 
 /* Footer */
 footer {
-    background: #070a12;
+    background: #02040a;
     text-align: center;
-    padding: 30px;
+    padding: 25px;
     color: var(--text-muted);
     font-size: 0.85rem;
     border-top: 1px solid var(--card-border);
-    margin-top: 40px;
+    margin-top: auto;
 }
 
-/* Keyframes animations */
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeInDown {
-    from { opacity: 0; transform: translateY(-20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes fadeInUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-}
-
-/* Design mobile responsive */
-@media (max-width: 600px) {
+/* Responsiveness Mobile */
+@media (max-width: 768px) {
     header h1 {
-        font-size: 2.2rem;
+        font-size: 2.4rem;
     }
-    .catalogue {
+
+    .rp-grid {
         grid-template-columns: 1fr;
+    }
+
+    .discord-icon-box, .image-box, .mic-small-box {
+        display: none;
+    }
+
+    .discord-link-box, .code-box, .voc-box {
+        grid-column: 1;
+        width: 100%;
+        padding-left: 15px;
+    }
+
+    .discord-link-box {
+        font-size: 1.6rem;
+    }
+
+    .flag-title h2 {
+        font-size: 1.1rem;
+        letter-spacing: 3px;
     }
 }
