@@ -547,6 +547,80 @@ body {
     transform: scale(1.05);
 }
 
+/* ==========================================
+   STYLE PROMO EXCLUSIVE (LOOK MAGASIN HIGH-TECH)
+   ========================================== */
+
+/* Contour lumineux animé pour la carte en promo */
+.carte-promo {
+    border: 2px solid #ff0055 !important;
+    position: relative;
+    box-shadow: 0 0 20px rgba(255, 0, 85, 0.3);
+    animation: promoPulse 2s infinite alternate;
+}
+
+@keyframes promoPulse {
+    0% {
+        box-shadow: 0 0 15px rgba(255, 0, 85, 0.3);
+    }
+    100% {
+        box-shadow: 0 0 30px rgba(255, 0, 85, 0.6);
+    }
+}
+
+/* Badge "-38% PROMO FLASH" style magasin */
+.promo-badge {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    background: linear-gradient(135deg, #ff0055, #ff5000);
+    color: #fff;
+    font-size: 0.75rem;
+    font-weight: 900;
+    padding: 6px 14px;
+    border-radius: 20px;
+    z-index: 10;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 15px rgba(255, 0, 85, 0.5);
+    text-transform: uppercase;
+}
+
+/* Affichage du prix barré & nouveau prix */
+.footer-promo {
+    align-items: center;
+}
+
+.prix-box {
+    display: flex;
+    flex-direction: column;
+}
+
+.ancien-prix {
+    font-size: 0.85rem;
+    color: #ff4d4d;
+    text-decoration: line-through;
+    font-weight: 700;
+    opacity: 0.8;
+}
+
+.promo-prix {
+    font-size: 1.4rem !important;
+    font-weight: 900 !important;
+    color: #00f076 !important; /* Vert Néon Magasin */
+    text-shadow: 0 0 10px rgba(0, 240, 118, 0.4);
+}
+
+/* Bouton d'achat spécial Promo */
+.btn-promo {
+    background: linear-gradient(135deg, #ff0055, #ff5000) !important;
+    box-shadow: 0 5px 15px rgba(255, 0, 85, 0.4);
+}
+
+.btn-promo:hover {
+    transform: scale(1.08) !important;
+    box-shadow: 0 8px 25px rgba(255, 0, 85, 0.7) !important;
+}
+
 /* FOOTER */
 footer {
     text-align: center;
