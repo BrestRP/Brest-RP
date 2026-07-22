@@ -3,159 +3,420 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Connexion Panel Admin</title>
+  <title>StaffRP - Boutiques & Panel Admin</title>
   <style>
     * {
       box-sizing: border-box;
-      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     }
     body {
-      background-color: #1a1a1a;
-      color: #fff;
+      background-color: #121212;
+      color: #e0e0e0;
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    /* Barre de Navigation */
+    header {
+      background-color: #1e1e1e;
+      padding: 15px 30px;
+      display: flex;
+      justify-content: space-between;
       align-items: center;
-      height: 100vh;
-      margin: 0;
+      border-bottom: 2px solid #333;
     }
-    .login-card {
-      background: #2b2b2b;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 4px 15px rgba(0,0,0,0.5);
-      width: 100%;
-      max-width: 400px;
-    }
-    h2 {
-      margin-top: 0;
-      text-align: center;
+    .logo {
+      font-size: 22px;
+      font-weight: bold;
       color: #4CAF50;
     }
-    .form-group {
+    nav button {
+      background: #2a2a2a;
+      color: white;
+      border: 1px solid #444;
+      padding: 10px 18px;
+      margin-left: 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: 0.3s;
+    }
+    nav button:hover {
+      background: #333;
+    }
+    nav button.btn-admin {
+      background: #4CAF50;
+      color: #000;
+      border: none;
+    }
+    nav button.btn-admin:hover {
+      background: #45a049;
+    }
+
+    /* Conteneur Principal */
+    .container {
+      padding: 30px;
+      max-width: 1200px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    /* Section Boutiques */
+    .shop-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .card {
+      background: #1e1e1e;
+      border: 1px solid #333;
+      border-radius: 8px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+    .card img {
+      width: 100%;
+      height: 180px;
+      object-fit: cover;
+      background: #2a2a2a;
+    }
+    .card-body {
+      padding: 15px;
+      flex-grow: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .card-title {
+      font-size: 18px;
+      margin-bottom: 8px;
+      color: #fff;
+    }
+    .card-price {
+      font-size: 16px;
+      color: #4CAF50;
+      font-weight: bold;
       margin-bottom: 15px;
     }
-    label {
+
+    /* Modal de Connexion Admin */
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.85);
+      display: none;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+    .modal-box {
+      background: #222;
+      padding: 30px;
+      border-radius: 10px;
+      width: 350px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.8);
+      border: 1px solid #4CAF50;
+    }
+    .modal-box h2 {
+      margin-bottom: 15px;
+      color: #4CAF50;
+      text-align: center;
+    }
+    .input-group {
+      margin-bottom: 15px;
+    }
+    .input-group label {
       display: block;
       margin-bottom: 5px;
       font-size: 14px;
     }
-    input[type="text"], input[type="password"], input[type="file"] {
+    .input-group input {
       width: 100%;
       padding: 10px;
+      border-radius: 5px;
       border: 1px solid #444;
-      border-radius: 5px;
       background: #333;
-      color: #fff;
+      color: white;
     }
-    button {
+    .btn-submit {
       width: 100%;
       padding: 10px;
+      background: #4CAF50;
       border: none;
-      border-radius: 5px;
-      background-color: #4CAF50;
-      color: white;
-      font-size: 16px;
-      cursor: pointer;
+      color: black;
       font-weight: bold;
+      border-radius: 5px;
+      cursor: pointer;
     }
-    button:hover {
-      background-color: #45a049;
+
+    /* Panel Admin Layout */
+    #admin-view {
+      display: none;
     }
-    .error {
-      color: #ff4d4d;
+    .admin-section {
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 8px;
+      margin-bottom: 25px;
+      border: 1px solid #333;
+    }
+    .admin-section h3 {
+      color: #4CAF50;
       margin-bottom: 15px;
-      text-align: center;
-      display: none;
     }
-    /* Style du Panel Admin (caché par défaut) */
-    #admin-panel {
-      display: none;
+
+    /* Table des Logs */
+    .logs-table {
       width: 100%;
-      max-width: 600px;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    .logs-table th, .logs-table td {
+      border: 1px solid #333;
+      padding: 10px;
+      text-align: left;
+      font-size: 14px;
+    }
+    .logs-table th {
+      background: #2a2a2a;
+      color: #4CAF50;
+    }
+    .logs-table tr:nth-child(even) {
+      background: #181818;
+    }
+    .badge {
+      background: #4CAF50;
+      color: black;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-weight: bold;
     }
   </style>
 </head>
 <body>
 
-  <!-- 1. PAGE DE CONNEXION -->
-  <div class="login-card" id="login-box">
-    <h2>Connexion Admin</h2>
-    <div class="error" id="error-msg">Identifiant ou mot de passe incorrect !</div>
+  <!-- EN-TÊTE -->
+  <header>
+    <div class="logo">StaffRP - Management</div>
+    <nav>
+      <button onclick="afficherVue('boutique')">Voir les Boutiques</button>
+      <button class="btn-admin" onclick="ouvrirConnexionAdmin()">Panel Admin</button>
+    </nav>
+  </header>
+
+  <div class="container">
     
-    <div class="form-group">
-      <label>Identifiant</label>
-      <input type="text" id="username" placeholder="Entrez votre identifiant">
+    <!-- 1. VUE DES BOUTIQUES -->
+    <div id="boutique-view">
+      <h2>Nos Boutiques & Articles VIP</h2>
+      <div class="shop-grid" id="catalogue-boutiques">
+        <!-- Les boutiques par défaut -->
+        <div class="card">
+          <img src="https://via.placeholder.com/300x180/333/fff?text=Pack+VIP" alt="Pack VIP">
+          <div class="card-body">
+            <div class="card-title">Boutique VIP Gold</div>
+            <div class="card-price">15.00 € / mois</div>
+            <p style="font-size:13px; color:#aaa;">Accès aux véhicules exclusifs et avantages sur le serveur.</p>
+          </div>
+        </div>
+
+        <div class="card">
+          <img src="https://via.placeholder.com/300x180/333/fff?text=Garage+Custom" alt="Garage Custom">
+          <div class="card-body">
+            <div class="card-title">Boutique Véhicules Import</div>
+            <div class="card-price">Variable</div>
+            <p style="font-size:13px; color:#aaa;">Catalogue de voitures de luxe et personnalisations.</p>
+          </div>
+        </div>
+      </div>
     </div>
-    
-    <div class="form-group">
-      <label>Mot de passe</label>
-      <input type="password" id="password" placeholder="Entrez votre mot de passe">
+
+    <!-- 2. VUE PANEL ADMIN (Masquée par défaut) -->
+    <div id="admin-view">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+        <h2>Panneau d'Administration <span class="badge">Session Active</span></h2>
+        <button onclick="deconnexionAdmin()" style="background:#d32f2f; color:white; border:none; padding:8px 15px; border-radius:5px; cursor:pointer;">Déconnexion</button>
+      </div>
+
+      <!-- Module : Ajouter un article dans une boutique -->
+      <div class="admin-section">
+        <h3>Ajouter une Boutique / Article (Image Locale)</h3>
+        <form id="form-ajout-article" onsubmit="ajouterArticle(event)">
+          <div class="input-group">
+            <label>Nom de la boutique / article :</label>
+            <input type="text" id="article-nom" required placeholder="Ex: Pack Armes VIP">
+          </div>
+          <div class="input-group">
+            <label>Prix :</label>
+            <input type="text" id="article-prix" required placeholder="Ex: 20.00 €">
+          </div>
+          <div class="input-group">
+            <label>Choisir une image locale sur votre ordinateur :</label>
+            <input type="file" id="article-file" accept="image/*" required style="background:none; border:none;">
+          </div>
+          <button type="submit" class="btn-submit">Ajouter au Catalogue</button>
+        </form>
+      </div>
+
+      <!-- Module : Journaux / Logs du Panel Admin -->
+      <div class="admin-section">
+        <h3>Logs & Historique des Actions</h3>
+        <p style="font-size: 13px; color: #aaa; margin-bottom: 10px;">Suivi en temps réel des connexions et des modifications effectuées.</p>
+        <table class="logs-table">
+          <thead>
+            <tr>
+              <th>Heure</th>
+              <th>Utilisateur</th>
+              <th>Action / Événement</th>
+            </tr>
+          </thead>
+          <tbody id="logs-container">
+            <!-- Les logs s'afficheront ici -->
+          </tbody>
+        </table>
+      </div>
     </div>
-    
-    <button onclick="seConnecter()">Se connecter</button>
+
   </div>
 
-  <!-- 2. PANNEAU ADMIN (Accessible uniquement après connexion) -->
-  <div class="login-card" id="admin-panel">
-    <h2>Panel Admin - Bienvenue !</h2>
-    <p>Vous êtes connecté avec accès exclusif.</p>
-    <hr style="border-color: #444; margin: 20px 0;">
-    
-    <h3>Ajouter une image locale</h3>
-    <div class="form-group">
-      <label>Sélectionner une image depuis votre ordinateur :</label>
-      <input type="file" id="image-file" accept="image/*" onchange="apercuImage(event)">
+  <!-- MODAL DE CONNEXION ADMIN -->
+  <div class="modal-overlay" id="login-modal">
+    <div class="modal-box">
+      <h2>Connexion Admin</h2>
+      <p id="error-msg" style="color: #ff4d4d; font-size: 13px; text-align: center; display: none; margin-bottom: 10px;">Identifiants incorrects !</p>
+      
+      <div class="input-group">
+        <label>Identifiant</label>
+        <input type="text" id="admin-id" placeholder="Votre ID">
+      </div>
+      <div class="input-group">
+        <label>Mot de passe</label>
+        <input type="password" id="admin-pass" placeholder="Votre MDP">
+      </div>
+      <button class="btn-submit" onclick="validerConnexion()">Se Connecter</button>
+      <button onclick="fermerModal()" style="width:100%; margin-top:8px; background:none; border:none; color:#aaa; cursor:pointer;">Annuler</button>
     </div>
-
-    <!-- Aperçu de l'image locale -->
-    <div id="preview-container" style="margin-top: 15px; text-align: center;">
-      <img id="preview" src="" alt="Aperçu" style="max-width: 100%; display: none; border-radius: 5px;">
-    </div>
-    
-    <button onclick="seDeconnecter()" style="background-color: #d32f2f; margin-top: 20px;">Déconnexion</button>
   </div>
 
   <script>
-    // Vos identifiants de sécurité
-    const USER_CORRECT = "BrestBrestStaff";
-    const PASS_CORRECT = "StaffRP1234";
+    // Identifiants configurés
+    const ID_CORRECT = "BrestBrestStaff";
+    const MDP_CORRECT = "StaffRP1234";
 
-    function seConnecter() {
-      const userSaisi = document.getElementById('username').value;
-      const passSaisi = document.getElementById('password').value;
-      const errorMsg = document.getElementById('error-msg');
+    let estConnecte = false;
 
-      if (userSaisi === USER_CORRECT && passSaisi === PASS_CORRECT) {
-        // Cacher la boîte de login et afficher le Panel Admin
-        document.getElementById('login-box').style.display = 'none';
-        document.getElementById('admin-panel').style.display = 'block';
-        errorMsg.style.display = 'none';
+    // Ajouter un log système
+    function ajouterLog(action) {
+      const container = document.getElementById('logs-container');
+      const now = new Date();
+      const heure = now.toLocaleTimeString();
+
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td>${heure}</td>
+        <td><strong style="color:#4CAF50;">BrestBrestStaff</strong></td>
+        <td>${action}</td>
+      `;
+      container.prepend(tr);
+    }
+
+    // Gestion de l'affichage
+    function afficherVue(vue) {
+      if (vue === 'admin' && !estConnecte) {
+        ouvrirConnexionAdmin();
+        return;
+      }
+
+      document.getElementById('boutique-view').style.display = (vue === 'boutique') ? 'block' : 'none';
+      document.getElementById('admin-view').style.display = (vue === 'admin') ? 'block' : 'none';
+    }
+
+    // Modal de connexion
+    function ouvrirConnexionAdmin() {
+      if (estConnecte) {
+        afficherVue('admin');
       } else {
-        // Afficher l'erreur
-        errorMsg.style.display = 'block';
+        document.getElementById('login-modal').style.display = 'flex';
       }
     }
 
-    // Fonction pour afficher l'image choisie depuis vos fichiers locaux
-    function apercuImage(event) {
-      const input = event.target;
-      if (input.files && input.files[0]) {
+    function fermerModal() {
+      document.getElementById('login-modal').style.display = 'none';
+      document.getElementById('error-msg').style.display = 'none';
+    }
+
+    function validerConnexion() {
+      const idSaisi = document.getElementById('admin-id').value;
+      const passSaisi = document.getElementById('admin-pass').value;
+
+      if (idSaisi === ID_CORRECT && passSaisi === MDP_CORRECT) {
+        estConnecte = true;
+        fermerModal();
+        afficherVue('admin');
+        ajouterLog("Connexion réussie au Panel Admin");
+        // Réinitialiser les champs
+        document.getElementById('admin-id').value = '';
+        document.getElementById('admin-pass').value = '';
+      } else {
+        document.getElementById('error-msg').style.display = 'block';
+      }
+    }
+
+    function deconnexionAdmin() {
+      estConnecte = false;
+      afficherVue('boutique');
+      alert("Vous avez été déconnecté.");
+    }
+
+    // Traitement de l'image locale et création de l'article
+    function ajouterArticle(e) {
+      e.preventDefault();
+
+      const nom = document.getElementById('article-nom').value;
+      const prix = document.getElementById('article-prix').value;
+      const fileInput = document.getElementById('article-file');
+      const file = fileInput.files[0];
+
+      if (file) {
         const reader = new FileReader();
-        reader.onload = function(e) {
-          const img = document.getElementById('preview');
-          img.src = e.target.result;
-          img.style.display = 'block';
-        }
-        reader.readAsDataURL(input.files[0]);
+        reader.onload = function(event) {
+          const imageSrc = event.target.result; // Source sous forme de fichier local (DataURL)
+
+          // Création de la carte dans la boutique
+          const catalogue = document.getElementById('catalogue-boutiques');
+          const newCard = document.createElement('div');
+          newCard.className = 'card';
+          newCard.innerHTML = `
+            <img src="${imageSrc}" alt="${nom}">
+            <div class="card-body">
+              <div class="card-title">${nom}</div>
+              <div class="card-price">${prix}</div>
+              <p style="font-size:13px; color:#aaa;">Nouvel article ajouté par le Staff.</p>
+            </div>
+          `;
+          catalogue.appendChild(newCard);
+
+          // Ajout du log
+          ajouterLog(`Ajout du nouvel article "${nom}" (${prix}) avec fichier image local (${file.name})`);
+
+          // Réinitialiser le formulaire
+          document.getElementById('form-ajout-article').reset();
+          alert("Article et image locale ajoutés avec succès !");
+        };
+        reader.readAsDataURL(file);
       }
     }
 
-    function seDeconnecter() {
-      document.getElementById('login-box').style.display = 'block';
-      document.getElementById('admin-panel').style.display = 'none';
-      document.getElementById('username').value = '';
-      document.getElementById('password').value = '';
-    }
+    // Log initial
+    window.onload = function() {
+      ajouterLog("Système prêt et en attente de connexion.");
+    };
   </script>
 
 </body>
