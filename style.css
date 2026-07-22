@@ -193,7 +193,7 @@ body {
 }
 
 /* ==========================================
-   PAGE 1 : ACCUEIL HERO MASTER
+   HERO MASTER & DASHBOARD
    ========================================== */
 .hero-master {
     max-width: 1200px;
@@ -333,9 +333,6 @@ body {
     transform: translateY(-3px);
 }
 
-/* ==========================================
-   DASHBOARD GRID (ACCUEIL)
-   ========================================== */
 .dashboard-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -453,7 +450,7 @@ body {
 }
 
 /* ==========================================
-   CARTES DESIGN HIGH-TECH 3D
+   CARTES DESIGN
    ========================================== */
 .carte {
     background: var(--bg-card);
@@ -464,6 +461,7 @@ body {
     display: flex;
     flex-direction: column;
     transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
 }
 
 .carte:hover {
@@ -552,7 +550,6 @@ body {
    ========================================== */
 .carte-promo {
     border: 2px solid #ff0055 !important;
-    position: relative;
     box-shadow: 0 0 20px rgba(255, 0, 85, 0.3);
     animation: promoPulse 2s infinite alternate;
 }
@@ -590,7 +587,7 @@ body {
     color: #ff4d4d;
     text-decoration: line-through;
     font-weight: 700;
-    opacity: 0.8;
+    opacity: 0.85;
 }
 
 .promo-prix {
@@ -611,19 +608,24 @@ body {
 }
 
 /* ==========================================
-   STYLE VILLA BEACH (PROMO LUXE VIP GOLD)
+   STYLE VILLA BEACH (PROMO LUXE VIP GOLD & CYBER)
    ========================================== */
 .carte-villa-vip {
     border: 2px solid #ffb703 !important;
-    position: relative;
-    background: linear-gradient(180deg, rgba(255, 183, 3, 0.08) 0%, rgba(15, 18, 30, 0.95) 100%) !important;
-    box-shadow: 0 0 25px rgba(255, 183, 3, 0.3);
+    background: linear-gradient(180deg, rgba(255, 183, 3, 0.12) 0%, rgba(15, 18, 30, 0.95) 100%) !important;
+    box-shadow: 0 0 25px rgba(255, 183, 3, 0.4);
     animation: goldPulse 2.5s infinite alternate ease-in-out;
 }
 
 @keyframes goldPulse {
-    0% { box-shadow: 0 0 15px rgba(255, 183, 3, 0.3); border-color: #ffb703; }
-    100% { box-shadow: 0 0 35px rgba(0, 242, 254, 0.6); border-color: #00f2fe; }
+    0% { 
+        box-shadow: 0 0 20px rgba(255, 183, 3, 0.4); 
+        border-color: #ffb703 !important;
+    }
+    100% { 
+        box-shadow: 0 0 35px rgba(0, 242, 254, 0.6); 
+        border-color: #00f2fe !important;
+    }
 }
 
 .vip-badge {
@@ -638,7 +640,7 @@ body {
     border-radius: 20px;
     z-index: 10;
     letter-spacing: 1px;
-    box-shadow: 0 4px 15px rgba(255, 183, 3, 0.5);
+    box-shadow: 0 4px 15px rgba(255, 183, 3, 0.6);
     text-transform: uppercase;
 }
 
@@ -650,15 +652,14 @@ body {
     border-radius: 10px;
     vertical-align: middle;
     margin-left: 6px;
+    font-weight: 800;
 }
 
 .vip-prix {
     font-size: 1.45rem !important;
     font-weight: 900 !important;
-    background: linear-gradient(135deg, #ffb703, #00f2fe);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    filter: drop-shadow(0 0 10px rgba(255, 183, 3, 0.4));
+    color: #ffb703 !important;
+    text-shadow: 0 0 12px rgba(255, 183, 3, 0.6);
 }
 
 .btn-vip {
@@ -670,7 +671,7 @@ body {
 
 .btn-vip:hover {
     transform: scale(1.08) !important;
-    box-shadow: 0 8px 25px rgba(0, 242, 254, 0.7) !important;
+    box-shadow: 0 8px 25px rgba(0, 242, 254, 0.8) !important;
     background: linear-gradient(135deg, #00f2fe, #00a8ff) !important;
     color: #fff !important;
 }
