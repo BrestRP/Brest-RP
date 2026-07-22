@@ -1,492 +1,520 @@
-/* style.css */
+/* ==========================================
+   RESET & VARIABLES GLOBALES
+   ========================================== */
 :root {
-    --primary-blue: #0b5ed7;
-    --accent-cyan: #38bdf8;
-    --neon-blue: #2563eb;
-    --neon-glow: rgba(37, 99, 235, 0.4);
-    --discord-color: #5865F2;
-    --discord-hover: #4752C4;
-    --price-green: #10b981;
-    --bg-dark: #050811;
-    --card-bg: rgba(15, 23, 42, 0.75);
-    --card-border: rgba(255, 255, 255, 0.1);
-    --text-white: #ffffff;
+    --bg-dark: #0a0b10;
+    --bg-card: rgba(18, 22, 36, 0.65);
+    --primary: #5865f2;
+    --primary-glow: rgba(88, 101, 242, 0.4);
+    --accent: #00f2fe;
+    --accent-glow: rgba(0, 242, 254, 0.4);
+    --gold: #ffb703;
+    --text-main: #f1f5f9;
     --text-muted: #94a3b8;
+    --border-card: rgba(255, 255, 255, 0.08);
+    --font-main: 'Poppins', sans-serif;
 }
 
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
-    scroll-behavior: smooth;
+    box-sizing: border-box;
+    font-family: var(--font-main);
 }
 
 body {
-    font-family: 'Poppins', Arial, sans-serif;
     background-color: var(--bg-dark);
-    color: var(--text-white);
+    color: var(--text-main);
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
     overflow-x: hidden;
     position: relative;
 }
 
-/* Effet lumineux de fond */
+/* ==========================================
+   FOND ANIMÉ HIGH-TECH (BG GLOW)
+   ========================================== */
 .bg-glow {
-    position: absolute;
-    top: -200px;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 900px;
-    height: 900px;
-    background: radial-gradient(circle, rgba(37, 99, 235, 0.2) 0%, rgba(5, 8, 17, 0) 70%);
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
     z-index: -1;
-    pointer-events: none;
+    background: 
+        radial-gradient(circle at 15% 20%, rgba(88, 101, 242, 0.18) 0%, transparent 45%),
+        radial-gradient(circle at 85% 80%, rgba(0, 242, 254, 0.15) 0%, transparent 45%),
+        radial-gradient(circle at 50% 50%, rgba(120, 0, 255, 0.08) 0%, transparent 60%);
+    filter: blur(40px);
+    animation: pulseGlow 10s ease-in-out infinite alternate;
 }
 
-/* Header */
-header {
+@keyframes pulseGlow {
+    0% { transform: scale(1) translate(0, 0); }
+    50% { transform: scale(1.1) translate(-2%, 2%); }
+    100% { transform: scale(1) translate(2%, -2%); }
+}
+
+/* ==========================================
+   EN-TÊTE / HEADER
+   ========================================== */
+.header {
     text-align: center;
-    padding: 60px 20px 30px;
+    padding: 3rem 1rem 1.5rem;
+    animation: fadeInDown 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.logo-title h1 {
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: -1px;
+    background: linear-gradient(135deg, #ffffff 30%, var(--accent) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    text-shadow: 0 10px 30px rgba(0, 242, 254, 0.2);
 }
 
 .badge {
     display: inline-flex;
     align-items: center;
     gap: 8px;
-    background: rgba(37, 99, 235, 0.15);
-    border: 1px solid rgba(56, 189, 248, 0.4);
-    color: var(--accent-cyan);
-    padding: 6px 18px;
-    border-radius: 50px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--border-card);
+    padding: 6px 16px;
+    border-radius: 20px;
     font-size: 0.85rem;
-    font-weight: 600;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    margin-bottom: 15px;
+    color: var(--accent);
+    margin-bottom: 12px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
 }
 
-header h1 {
-    font-size: 3.5rem;
-    font-weight: 900;
-    letter-spacing: -1px;
-    background: linear-gradient(180deg, #ffffff 0%, #94a3b8 100%);
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-}
-
-header p {
+.header p {
     color: var(--text-muted);
     font-size: 1.1rem;
-    margin-top: 8px;
+    margin-top: 5px;
 }
 
-/* Navigation Vitrée */
+/* ==========================================
+   NAVIGATION
+   ========================================== */
 nav {
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 15px;
-    background: rgba(10, 15, 30, 0.8);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    padding: 15px 25px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    border-bottom: 1px solid var(--card-border);
-}
-
-nav a {
-    color: var(--text-muted);
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.95rem;
-    padding: 10px 20px;
-    border-radius: 12px;
-    transition: all 0.3s ease;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-nav a:hover {
-    color: var(--text-white);
-    background: rgba(255, 255, 255, 0.05);
-}
-
-nav a.nav-discord {
-    background: var(--discord-color);
-    color: white;
-}
-
-nav a.nav-discord:hover {
-    background: var(--discord-hover);
-    box-shadow: 0 0 20px rgba(88, 101, 242, 0.5);
-}
-
-/* ========================================= */
-/* BANNIÈRE RP NEON (Style Image)             */
-/* ========================================= */
-
-.section-accueil {
-    padding: 40px 20px;
-    display: flex;
-    justify-content: center;
-}
-
-.rp-card-container {
-    width: 100%;
-    max-width: 950px;
-    background: #02040a;
-    border: 2px solid #1a2a5e;
-    border-radius: 18px;
-    padding: 16px;
-    box-shadow: 0 0 35px rgba(37, 99, 235, 0.3), inset 0 0 15px rgba(37, 99, 235, 0.1);
-}
-
-/* Header de la carte RP */
-.rp-header-bar {
-    background: #030816;
-    border: 1.5px solid #1a3278;
-    border-radius: 12px;
-    padding: 12px 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 14px;
-    box-shadow: 0 0 15px rgba(37, 99, 235, 0.2);
-}
-
-.flag-title {
-    display: flex;
-    align-items: center;
-    gap: 15px;
-}
-
-.flag-title .flag {
-    font-size: 1.6rem;
-}
-
-.flag-title h2 {
-    font-size: 1.6rem;
-    font-weight: 900;
-    letter-spacing: 6px;
-    color: #ffffff;
-    font-style: italic;
-    text-shadow: 0 0 10px rgba(255, 255, 255, 0.6);
-}
-
-.mic-icon {
-    color: #8b5cf6;
-    font-size: 1.6rem;
-    filter: drop-shadow(0 0 8px #8b5cf6);
-}
-
-/* Grille RP */
-.rp-grid {
-    display: grid;
-    grid-template-columns: 220px 1fr;
-    grid-template-rows: auto auto auto;
     gap: 12px;
+    flex-wrap: wrap;
+    padding: 10px 20px;
+    margin: 1.5rem auto 2.5rem;
+    max-width: 800px;
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-card);
+    backdrop-filter: blur(15px);
+    border-radius: 50px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) 0.1s backwards;
 }
 
-.rp-box {
-    background: #04091a;
-    border: 1.5px solid #182e6d;
-    border-radius: 14px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: all 0.3s ease;
-    text-decoration: none;
-    color: white;
-}
-
-.rp-box:hover {
-    border-color: #3b82f6;
-    box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
-}
-
-/* Box Discord Icon */
-.discord-icon-box {
-    grid-column: 1;
-    grid-row: 1;
-    height: 110px;
-    background: linear-gradient(135deg, #2b41b8 0%, #152166 100%);
-    font-size: 4rem;
-    color: white;
-    box-shadow: inset 0 0 15px rgba(255, 255, 255, 0.2);
-}
-
-/* Box Discord Link */
-.discord-link-box {
-    grid-column: 2;
-    grid-row: 1;
-    height: 110px;
-    justify-content: flex-start;
-    padding-left: 30px;
-    font-size: 2.5rem;
-    font-weight: 800;
-    gap: 10px;
-}
-
-.discord-link-box .arrow {
-    color: #6366f1;
-    font-size: 3rem;
-}
-
-.discord-link-box .prefix {
-    color: #818cf8;
-}
-
-.discord-link-box .code {
-    color: #ffffff;
-    text-shadow: 0 0 12px rgba(255, 255, 255, 0.8);
-}
-
-/* Image Box */
-.image-box {
-    grid-column: 1;
-    grid-row: 2;
-    height: 100px;
-    background: url('https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&w=400&q=80') center/cover;
-    position: relative;
-    overflow: hidden;
-}
-
-.img-overlay {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(180deg, rgba(5, 12, 35, 0.2) 0%, rgba(5, 12, 35, 0.8) 100%);
-}
-
-.img-badge {
-    position: relative;
-    z-index: 2;
-    background: rgba(0, 0, 0, 0.7);
-    padding: 4px 10px;
-    border-radius: 6px;
-    font-size: 0.75rem;
-    font-weight: 700;
-    border: 1px solid rgba(255, 255, 255, 0.2);
-}
-
-/* Code Session Box */
-.code-box {
-    grid-column: 2;
-    grid-row: 2;
-    height: 100px;
-    flex-direction: column;
-    align-items: flex-start;
-    padding-left: 30px;
-    justify-content: center;
-    gap: 4px;
-}
-
-.code-label {
-    color: #6366f1;
-    font-size: 0.9rem;
-    font-weight: 700;
-    letter-spacing: 1.5px;
+.nav-btn, .nav-discord {
+    background: transparent;
+    border: none;
+    color: var(--text-muted);
+    padding: 10px 22px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
     display: flex;
     align-items: center;
     gap: 8px;
+    text-decoration: none;
 }
 
-.code-value {
-    font-size: 2.2rem;
-    font-weight: 800;
-    letter-spacing: 2px;
-    color: #ffffff;
-    font-family: monospace;
+.nav-btn:hover {
+    color: #fff;
+    background: rgba(255, 255, 255, 0.08);
+    transform: translateY(-2px);
 }
 
-/* Mic Small Box */
-.mic-small-box {
-    grid-column: 1;
-    grid-row: 3;
-    height: 60px;
-    font-size: 1.8rem;
-    color: #8b5cf6;
+.nav-btn.active {
+    color: #fff;
+    background: linear-gradient(135deg, var(--primary), #4752c4);
+    box-shadow: 0 4px 20px var(--primary-glow);
 }
 
-/* Voc Obligatoire Box */
-.voc-box {
-    grid-column: 2;
-    grid-row: 3;
-    height: 60px;
-    justify-content: flex-start;
-    padding-left: 25px;
-    gap: 15px;
-    font-size: 1.1rem;
-    font-weight: 800;
-    letter-spacing: 2px;
-    color: #38bdf8;
+.nav-discord {
+    background: rgba(88, 101, 242, 0.15);
+    color: #7289da;
+    border: 1px solid rgba(88, 101, 242, 0.3);
 }
 
-.voc-box i {
-    font-size: 1.4rem;
+.nav-discord:hover {
+    background: var(--primary);
+    color: #fff;
+    box-shadow: 0 4px 20px var(--primary-glow);
+    transform: translateY(-2px);
 }
 
-/* ========================================= */
-/* BOUTIQUE / CATALOGUE                      */
-/* ========================================= */
+/* ==========================================
+   SECTIONS & ANIMATION DE PAGE
+   ========================================== */
+.page-section {
+    display: none;
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+    transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
 
-.section-boutique {
-    padding: 40px 20px 60px;
+.page-section.active {
+    display: block;
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    animation: pageReveal 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes pageReveal {
+    from {
+        opacity: 0;
+        transform: translateY(25px) scale(0.98);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
 }
 
 .section-title {
     text-align: center;
-    margin-bottom: 40px;
+    margin-bottom: 2.5rem;
 }
 
 .section-title h2 {
-    font-size: 2.2rem;
-    font-weight: 800;
+    font-size: 2rem;
+    font-weight: 700;
 }
 
 .section-title p {
     color: var(--text-muted);
 }
 
+/* ==========================================
+   CARTE BANNER NEON (ACCUEIL)
+   ========================================== */
+.hero-container {
+    display: flex;
+    justify-content: center;
+    padding: 0 20px;
+}
+
+.neon-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: 24px;
+    padding: 2rem;
+    width: 100%;
+    max-width: 900px;
+    backdrop-filter: blur(20px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+    position: relative;
+    overflow: hidden;
+}
+
+.neon-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: conic-gradient(transparent, transparent, transparent, var(--accent));
+    animation: rotateBorder 6s linear infinite;
+    z-index: -1;
+    opacity: 0.2;
+}
+
+@keyframes rotateBorder {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.card-topbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.brand-name {
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.brand-name .dot {
+    color: var(--accent);
+}
+
+.audio-wave {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.audio-wave .bar {
+    width: 3px;
+    height: 15px;
+    background: var(--accent);
+    border-radius: 3px;
+    animation: wave 1s ease-in-out infinite alternate;
+}
+
+.audio-wave .bar:nth-child(2) { animation-delay: 0.2s; height: 22px; }
+.audio-wave .bar:nth-child(3) { animation-delay: 0.4s; height: 12px; }
+
+@keyframes wave {
+    0% { transform: scaleY(0.3); }
+    100% { transform: scaleY(1.1); }
+}
+
+.neon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.grid-item {
+    background: rgba(255, 255, 255, 0.03);
+    border: 1px solid var(--border-card);
+    border-radius: 16px;
+    padding: 1.2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    color: #fff;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.grid-item:hover {
+    background: rgba(255, 255, 255, 0.07);
+    border-color: rgba(255, 255, 255, 0.2);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+}
+
+.discord-box i {
+    font-size: 2.5rem;
+    color: var(--primary);
+    transition: transform 0.3s ease;
+}
+
+.discord-box:hover i {
+    transform: scale(1.2) rotate(-10deg);
+}
+
+.session-code {
+    font-size: 1.3rem;
+    font-weight: 800;
+    letter-spacing: 2px;
+    color: var(--accent);
+    margin-top: 5px;
+}
+
+/* ==========================================
+   GRILLE DES CATALOGUES (BOUTIQUE & IMMOBILIER)
+   ========================================== */
 .catalogue {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: 25px;
-    max-width: 1350px;
+    max-width: 1300px;
     margin: 0 auto;
+    padding: 0 20px 4rem;
 }
 
+/* ==========================================
+   CARTES DESIGN HIGH-TECH 3D
+   ========================================== */
 .carte {
-    background: var(--card-bg);
-    backdrop-filter: blur(12px);
-    border-radius: 16px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-card);
+    border-radius: 20px;
     overflow: hidden;
-    border: 1px solid var(--card-border);
-    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
-    transition: all 0.35s ease;
+    backdrop-filter: blur(15px);
     display: flex;
     flex-direction: column;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
 }
 
 .carte:hover {
-    transform: translateY(-8px);
-    border-color: rgba(56, 189, 248, 0.4);
-    box-shadow: 0 15px 35px rgba(37, 99, 235, 0.25);
+    transform: translateY(-10px) scale(1.02);
+    border-color: rgba(0, 242, 254, 0.3);
+    box-shadow: 0 20px 40px rgba(0, 242, 254, 0.15),
+                0 0 20px rgba(88, 101, 242, 0.1);
 }
 
+/* IMAGE WITH GLOW & ZOOM */
 .img-wrapper {
+    position: relative;
     width: 100%;
-    height: 190px;
+    height: 200px;
     overflow: hidden;
 }
 
-.carte img {
+.img-wrapper img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    transition: transform 0.5s ease;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.carte:hover img {
-    transform: scale(1.08);
+.carte:hover .img-wrapper img {
+    transform: scale(1.1);
 }
 
+.img-wrapper::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 50%;
+    background: linear-gradient(to top, rgba(18, 22, 36, 1), transparent);
+}
+
+/* CONTENU DE LA CARTE */
 .contenu {
-    padding: 20px;
+    padding: 1.5rem;
     display: flex;
     flex-direction: column;
     flex-grow: 1;
+    justify-content: space-between;
 }
 
-.carte h2 {
+.contenu h2 {
     font-size: 1.25rem;
     font-weight: 700;
-    margin-bottom: 6px;
+    margin-bottom: 8px;
+    color: #fff;
+    transition: color 0.3s ease;
+}
+
+.carte:hover .contenu h2 {
+    color: var(--accent);
 }
 
 .description {
-    color: var(--text-muted);
     font-size: 0.88rem;
-    line-height: 1.4;
-    margin-bottom: 20px;
-    flex-grow: 1;
+    color: var(--text-muted);
+    line-height: 1.5;
+    margin-bottom: 1.2rem;
 }
 
+/* PIED DE CARTE (PRIX + BOUTON) */
 .footer-card {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    padding-top: 12px;
-    border-top: 1px solid rgba(255, 255, 255, 0.06);
+    align-items: center;
+    margin-top: auto;
+    padding-top: 10px;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
 }
 
 .prix {
-    color: var(--price-green);
-    font-size: 1.4rem;
+    font-size: 1.2rem;
     font-weight: 800;
+    color: #fff;
+    background: linear-gradient(135deg, #ffffff, var(--accent));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
 }
 
 .btn-acheter {
-    background: var(--discord-color);
-    color: white;
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.85rem;
-    padding: 9px 16px;
-    border-radius: 10px;
-    transition: all 0.3s ease;
     display: inline-flex;
     align-items: center;
-    gap: 6px;
+    gap: 8px;
+    background: linear-gradient(135deg, var(--primary), #404eed);
+    color: #fff;
+    text-decoration: none;
+    padding: 8px 18px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    border-radius: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px var(--primary-glow);
 }
 
 .btn-acheter:hover {
-    background: var(--discord-hover);
+    background: linear-gradient(135deg, #6975f3, #5865f2);
+    box-shadow: 0 6px 20px rgba(88, 101, 242, 0.6);
     transform: scale(1.05);
-    box-shadow: 0 4px 15px rgba(88, 101, 242, 0.5);
 }
 
-/* Footer */
+.btn-acheter i {
+    font-size: 1rem;
+}
+
+/* ==========================================
+   FOOTER
+   ========================================== */
 footer {
-    background: #02040a;
     text-align: center;
-    padding: 25px;
+    padding: 2rem;
     color: var(--text-muted);
     font-size: 0.85rem;
-    border-top: 1px solid var(--card-border);
-    margin-top: auto;
+    border-top: 1px solid var(--border-card);
+    background: rgba(10, 11, 16, 0.8);
+    backdrop-filter: blur(10px);
 }
 
-/* Responsiveness Mobile */
+/* ==========================================
+   ANIMATIONS KEYFRAMES GLOBALES
+   ========================================== */
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ==========================================
+   RESPONSIVE DESIGN
+   ========================================== */
 @media (max-width: 768px) {
-    header h1 {
-        font-size: 2.4rem;
+    .header h1 {
+        font-size: 2.2rem;
+    }
+    
+    nav {
+        border-radius: 20px;
+        padding: 8px;
     }
 
-    .rp-grid {
-        grid-template-columns: 1fr;
+    .nav-btn, .nav-discord {
+        padding: 8px 14px;
+        font-size: 0.85rem;
     }
 
-    .discord-icon-box, .image-box, .mic-small-box {
-        display: none;
-    }
-
-    .discord-link-box, .code-box, .voc-box {
-        grid-column: 1;
-        width: 100%;
-        padding-left: 15px;
-    }
-
-    .discord-link-box {
-        font-size: 1.6rem;
-    }
-
-    .flag-title h2 {
-        font-size: 1.1rem;
-        letter-spacing: 3px;
+    .catalogue {
+        grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+        gap: 15px;
     }
 }
