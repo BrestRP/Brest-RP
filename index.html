@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* ============================================================
-           MODAL DE CONNEXION & STYLE GLOBAL CYBERPUNK
+           STYLES CYBERPUNK AVANCÉS & PANIER / FAVORIS / QUANTITÉS
         ============================================================ */
         .modal-overlay {
             position: fixed;
@@ -33,16 +33,18 @@
             padding: 40px;
             border-radius: 20px;
             width: 90%;
-            max-width: 440px;
+            max-width: 480px;
             box-shadow: 0 0 40px rgba(0, 242, 254, 0.2), inset 0 0 1px rgba(255, 255, 255, 0.2);
             border: 1px solid rgba(0, 242, 254, 0.4);
             color: #fff;
             position: relative;
+            max-height: 85vh;
+            overflow-y: auto;
         }
 
         .modal-box h2 {
             font-family: 'Orbitron', sans-serif;
-            font-size: 22px;
+            font-size: 20px;
             text-align: center;
             margin-bottom: 8px;
             color: #00f2fe;
@@ -135,9 +137,107 @@
             display: none;
         }
 
-        /* ============================================================
-           PANEL ADMIN ULTRA STYLISÉ
-        ============================================================ */
+        /* COMPTEURS ET BOUTONS QUANTITÉ SUR LES CARTES */
+        .card-actions-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+
+        .fav-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            color: #8a99ad;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .fav-btn:hover, .fav-btn.active {
+            background: rgba(255, 0, 128, 0.2);
+            border-color: #ff0080;
+            color: #ff0080;
+            box-shadow: 0 0 10px rgba(255, 0, 128, 0.4);
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            background: rgba(5, 8, 18, 0.6);
+            border: 1px solid rgba(0, 242, 254, 0.3);
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 12px;
+        }
+
+        .qty-btn {
+            background: transparent;
+            border: none;
+            color: #00f2fe;
+            padding: 6px 12px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        .qty-btn:hover {
+            background: rgba(0, 242, 254, 0.2);
+        }
+
+        .qty-input {
+            width: 40px;
+            background: transparent;
+            border: none;
+            color: #fff;
+            text-align: center;
+            font-family: 'Poppins', sans-serif;
+            font-weight: bold;
+            font-size: 14px;
+            outline: none;
+        }
+
+        /* BADGES DE NAVIGATION PANIER ET FAVORIS */
+        .nav-badge-count {
+            background: #00f2fe;
+            color: #000;
+            font-size: 10px;
+            font-weight: 900;
+            padding: 2px 6px;
+            border-radius: 10px;
+            margin-left: 5px;
+        }
+
+        /* PANIER MODAL STYLE */
+        .cart-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(5, 8, 18, 0.6);
+            border: 1px solid rgba(0, 242, 254, 0.2);
+            padding: 10px 15px;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .cart-total-box {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-family: 'Orbitron', sans-serif;
+            font-size: 16px;
+            color: #00f2fe;
+            margin: 20px 0;
+            padding-top: 15px;
+            border-top: 1px solid rgba(0, 242, 254, 0.2);
+        }
+
+        /* PANEL ADMIN */
         .admin-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -161,7 +261,7 @@
             font-family: 'Orbitron', sans-serif;
             color: #fff;
             margin: 0;
-            font-size: 24px;
+            font-size: 22px;
             display: flex;
             align-items: center;
             gap: 12px;
@@ -176,16 +276,17 @@
             display: flex;
             gap: 12px;
             margin-bottom: 25px;
+            flex-wrap: wrap;
         }
 
         .admin-tab-btn {
             background: rgba(15, 20, 38, 0.6);
             border: 1px solid rgba(0, 242, 254, 0.2);
             color: #8a99ad;
-            padding: 12px 24px;
+            padding: 12px 20px;
             border-radius: 10px;
             font-family: 'Orbitron', sans-serif;
-            font-size: 13px;
+            font-size: 12px;
             cursor: pointer;
             transition: all 0.3s ease;
             display: flex;
@@ -223,14 +324,8 @@
             padding-bottom: 12px;
         }
 
-        .admin-tab-content {
-            display: none;
-        }
-
-        .admin-tab-content.active {
-            display: block;
-            animation: fadeIn 0.3s ease;
-        }
+        .admin-tab-content { display: none; }
+        .admin-tab-content.active { display: block; animation: fadeIn 0.3s ease; }
 
         .item-manage-grid {
             display: grid;
@@ -247,7 +342,6 @@
             flex-direction: column;
             gap: 12px;
             transition: border-color 0.3s, box-shadow 0.3s;
-            position: relative;
         }
 
         .admin-item-card:hover {
@@ -269,10 +363,7 @@
             border: 1px solid rgba(0, 242, 254, 0.3);
         }
 
-        .admin-item-details {
-            flex: 1;
-        }
-
+        .admin-item-details { flex: 1; }
         .admin-item-details h4 {
             margin: 0 0 5px 0;
             color: #fff;
@@ -313,7 +404,7 @@
         .btn-ctrl-edit { background: rgba(0, 242, 254, 0.15); color: #00f2fe; border: 1px solid rgba(0, 242, 254, 0.4); }
         .btn-ctrl-edit:hover { background: #00f2fe; color: #000; }
 
-        .btn-ctrl-status { background: rgba(255, 187, 0, 0.15); color: #ffbb00; border: 1px solid rgba(ffbb00, 0.4); }
+        .btn-ctrl-status { background: rgba(255, 187, 0, 0.15); color: #ffbb00; border: 1px solid rgba(255, 187, 0, 0.4); }
         .btn-ctrl-status:hover { background: #ffbb00; color: #000; }
 
         .btn-ctrl-promo { background: rgba(186, 85, 211, 0.15); color: #ba55d3; border: 1px solid rgba(186, 85, 211, 0.4); }
@@ -393,12 +484,18 @@
             <i class="fa-solid fa-house"></i> <span>Accueil</span>
         </button>
         <button class="nav-btn" onclick="switchPage('boutique')">
-            <i class="fa-solid fa-cart-shopping"></i> <span>Boutique Builds</span>
+            <i class="fa-solid fa-cart-shopping"></i> <span>Boutique</span>
         </button>
         <button class="nav-btn" onclick="switchPage('immobiliere')">
-            <i class="fa-solid fa-building"></i> <span>Agence Immobilière</span>
+            <i class="fa-solid fa-building"></i> <span>Immobilier</span>
         </button>
-        <a href="https://discord.gg/gfYK88ADYt" target="_blank" rel="noopener noreferrer" class="nav-discord">
+        <button class="nav-btn" onclick="ouvrirFavorisModal()">
+            <i class="fa-solid fa-heart" style="color: #ff0080;"></i> <span>Favoris</span><span id="fav-count-badge" class="nav-badge-count">0</span>
+        </button>
+        <button class="nav-btn" onclick="ouvrirPanierModal()">
+            <i class="fa-solid fa-bag-shopping" style="color: #00f2fe;"></i> <span>Panier</span><span id="cart-count-badge" class="nav-badge-count">0</span>
+        </button>
+        <a href="https://discord.gg/dGEsjW8rJ" target="_blank" rel="noopener noreferrer" class="nav-discord">
             <i class="fa-brands fa-discord"></i> <span>Discord RP</span>
         </a>
         <button class="nav-btn nav-admin-btn" onclick="ouvrirConnexionAdmin()">
@@ -425,7 +522,7 @@
                     <p class="hero-desc">Découvre une ville ultra-vivante, des métiers exclusifs, une économie dynamique et des biens uniques au monde sur Emergency Hamburg.</p>
                     
                     <div class="hero-actions">
-                        <a href="https://discord.gg/gfYK88ADYt" target="_blank" class="btn-hero btn-hero-primary">
+                        <a href="https://discord.gg/dGEsjW8rJ" target="_blank" class="btn-hero btn-hero-primary">
                             <i class="fa-brands fa-discord"></i> Rejoindre la Communauté
                         </a>
                         <button class="btn-hero btn-hero-secondary" onclick="copySessionCode()">
@@ -448,12 +545,12 @@
                     </div>
                 </div>
 
-                <a href="https://discord.gg/gfYK88ADYt" target="_blank" class="dash-card discord-card">
+                <a href="https://discord.gg/dGEsjW8rJ" target="_blank" class="dash-card discord-card">
                     <div class="dash-icon discord-color"><i class="fa-brands fa-discord"></i></div>
                     <div class="dash-info">
                         <span class="dash-label">DISCORD PRINCIPAL</span>
-                        <span class="dash-val">discord.gg/gfYK88ADYt</span>
-                        <span class="dash-subtext">Rejoins +1000 membres actifs »</span>
+                        <span class="dash-val">discord.gg/dGEsjW8rJ</span>
+                        <span class="dash-subtext">Rejoins la communauté active »</span>
                     </div>
                 </a>
 
@@ -482,57 +579,521 @@
     <section id="page-boutique" class="page-section">
         <div class="section-title">
             <h2>🛒 Catalogue des Builds & Aménagements</h2>
-            <p>Commandez vos aménagement sur-mesure directement sur Discord</p>
+            <p>Sélectionnez la quantité souhaitée, ajoutez au panier ou commandez sur notre salon dédié</p>
         </div>
 
         <main class="catalogue" id="catalogue-builds">
-            <div class="carte carte-promo" id="item-gav">
+            <div class="carte carte-promo" id="item-gav" data-name="Salle de Garde à Vue" data-price="2200">
                 <div class="badge-tag promo-tag"><i class="fa-solid fa-bolt-lightning"></i> -38% PROMO FLASH</div>
-                <div class="img-wrapper">
-                    <img src="gav1.jpg" alt="GAV">
+                <div class="card-actions-top">
+                    <button class="fav-btn" onclick="toggleFav(this, 'item-gav')" title="Ajouter aux favoris"><i class="fa-solid fa-heart"></i></button>
                 </div>
+                <div class="img-wrapper"><img src="gav1.jpg" alt="GAV"></div>
                 <div class="contenu">
                     <h2 class="card-title">Salle de Garde à Vue</h2>
                     <p class="description">Salle complète aménagée pour le commissariat. Équipement prêt à l'emploi !</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('gav', -1)">-</button>
+                        <input type="text" id="qty-gav" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('gav', 1)">+</button>
+                    </div>
                     <div class="footer-card">
                         <div class="prix-box">
                             <span class="ancien-prix">3 542 €</span>
                             <span class="prix promo-prix card-price">2 200 €</span>
                         </div>
-                        <a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter btn-promo">
-                            <i class="fa-solid fa-fire"></i> Profiter !
-                        </a>
+                        <button class="btn-acheter btn-promo" onclick="ajouterAuPanier('item-gav', 'Salle de Garde à Vue', 2200, 'gav')">
+                            <i class="fa-solid fa-bag-shopping"></i> Panier
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <div class="carte" id="item-chaises"><div class="img-wrapper"><img src="chaises1.jpg" alt="Chaises"></div><div class="contenu"><h2 class="card-title">Lot de 5 Chaises</h2><p class="description">Mobilier pour aménagement de vos bureaux RP.</p><div class="footer-card"><p class="prix card-price">1 000 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-bureaux"><div class="img-wrapper"><img src="bureaux1.jpg" alt="Bureaux"></div><div class="contenu"><h2 class="card-title">Bureaux</h2><p class="description">Ensemble complet pour vos services administratifs.</p><div class="footer-card"><p class="prix card-price">2 643 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-dj"><div class="img-wrapper"><img src="dj1.jpg" alt="DJ"></div><div class="contenu"><h2 class="card-title">Matériel DJ</h2><p class="description">Équipement sonore pour animer vos événements.</p><div class="footer-card"><p class="prix card-price">3 210 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-conteneur"><div class="img-wrapper"><img src="conteneur1.jpg" alt="Conteneur"></div><div class="contenu"><h2 class="card-title">Conteneur</h2><p class="description">Conteneur de stockage industriel et maritime.</p><div class="footer-card"><p class="prix card-price">1 200 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-travaux"><div class="img-wrapper"><img src="travaux1.jpg" alt="Travaux"></div><div class="contenu"><h2 class="card-title">Zone de Travaux</h2><p class="description">Matériel complet de balisage pour vos chantiers.</p><div class="footer-card"><p class="prix card-price">2 400 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-barriere"><div class="img-wrapper"><img src="barriere1.jpg" alt="Barriere"></div><div class="contenu"><h2 class="card-title">Barrière de Sécurité</h2><p class="description">Barrières robustes pour sécuriser les périmètres.</p><div class="footer-card"><p class="prix card-price">1 100 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-bordure"><div class="img-wrapper"><img src="bordure1.jpg" alt="Bordure"></div><div class="contenu"><h2 class="card-title">Bordure Routière</h2><p class="description">Éléments de bordure pour aménagement urbain.</p><div class="footer-card"><p class="prix card-price">2 000 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-pneu"><div class="img-wrapper"><img src="pneu1.jpg" alt="Pneu"></div><div class="contenu"><h2 class="card-title">Pneu</h2><p class="description">Pneus de rechange ou de décor pour vos garages.</p><div class="footer-card"><p class="prix card-price">2 000 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-table"><div class="img-wrapper"><img src="table1.jpg" alt="Tables"></div><div class="contenu"><h2 class="card-title">Lot de 2 Tables</h2><p class="description">Tables solides pour aménager vos espaces.</p><div class="footer-card"><p class="prix card-price">1 400 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-camping"><div class="img-wrapper"><img src="camping1.jpg" alt="Camping"></div><div class="contenu"><h2 class="card-title">Équipement Camping</h2><p class="description">Matériel complet pour vos sorties en plein air.</p><div class="footer-card"><p class="prix card-price">1 183 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-conteneurs"><div class="img-wrapper"><img src="conteneurs1jpg.png" alt="Lot Conteneurs"></div><div class="contenu"><h2 class="card-title">Lot de Conteneurs</h2><p class="description">Ensemble de conteneurs pour vos grands dépôts.</p><div class="footer-card"><p class="prix card-price">2 950 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-barriererouge"><div class="img-wrapper"><img src="barriererouge1.jpg" alt="Barrière Rouge"></div><div class="contenu"><h2 class="card-title">Barrière Rouge</h2><p class="description">Barrière de contrôle et de sécurité visuelle.</p><div class="footer-card"><p class="prix card-price">1 000 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-grillage"><div class="img-wrapper"><img src="grillage1.jpg" alt="Grillage"></div><div class="contenu"><h2 class="card-title">Grillage</h2><p class="description">Clôture grillagée pour sécuriser vos terrains.</p><div class="footer-card"><p class="prix card-price">1 500 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-bellechaise"><div class="img-wrapper"><img src="bellechaise1.jpg" alt="Chaise Luxe"></div><div class="contenu"><h2 class="card-title">Chaise de Luxe</h2><p class="description">Siège de qualité pour intérieur haut de gamme.</p><div class="footer-card"><p class="prix card-price">1 000 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-livres"><div class="img-wrapper"><img src="livres1.jpg" alt="Livres"></div><div class="contenu"><h2 class="card-title">Étagère de Livres</h2><p class="description">Rangement de livres idéal pour vos bureaux.</p><div class="footer-card"><p class="prix card-price">900 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-metal"><div class="img-wrapper"><img src="metal1.jpg" alt="Metal"></div><div class="contenu"><h2 class="card-title">Plaques Métalliques</h2><p class="description">Plaques de métal pour constructions solides.</p><div class="footer-card"><p class="prix card-price">1 230 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-plots"><div class="img-wrapper"><img src="plots1.jpg" alt="Plots"></div><div class="contenu"><h2 class="card-title">Lot de 10 Plots</h2><p class="description">Plots de signalisation pour réguler le trafic.</p><div class="footer-card"><p class="prix card-price">3 640 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-poteau"><div class="img-wrapper"><img src="poteau1.jpg" alt="Poteau"></div><div class="contenu"><h2 class="card-title">Poteau</h2><p class="description">Poteau pour balisage et sécurité des voies.</p><div class="footer-card"><p class="prix card-price">2 000 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-tablechaise"><div class="img-wrapper"><img src="tablechaise1.jpg" alt="Table Chaise"></div><div class="contenu"><h2 class="card-title">Table & Chaise</h2><p class="description">Ensemble complet pour aménagement d'espace.</p><div class="footer-card"><p class="prix card-price">4 302 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-casierrouge"><div class="img-wrapper"><img src="casierrouge.jpg" alt="Casier Rouge"></div><div class="contenu"><h2 class="card-title">Casier Rouge</h2><p class="description">Casier de rangement sécurisé couleur rouge.</p><div class="footer-card"><p class="prix card-price">1 400 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-casierblanc"><div class="img-wrapper"><img src="casierblanc.jpg" alt="Casier Blanc"></div><div class="contenu"><h2 class="card-title">Casier Blanc</h2><p class="description">Casier de rangement épuré couleur blanc.</p><div class="footer-card"><p class="prix card-price">1 400 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-bureau"><div class="img-wrapper"><img src="bureau1.jpg" alt="Bureau"></div><div class="contenu"><h2 class="card-title">Bureau</h2><p class="description">Mobilier de travail ergonomique pour intérieurs.</p><div class="footer-card"><p class="prix card-price">3 740 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-lumiere"><div class="img-wrapper"><img src="lumiere1.jpg" alt="Lumiere"></div><div class="contenu"><h2 class="card-title">Lumière</h2><p class="description">Éclairage moderne pour vos bâtiments RP.</p><div class="footer-card"><p class="prix card-price">2 000 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-fontaine"><div class="img-wrapper"><img src="fontaine1.jpg" alt="Fontaine"></div><div class="contenu"><h2 class="card-title">Fontaine</h2><p class="description">Fontaine décorative pour sublimer vos espaces.</p><div class="footer-card"><p class="prix card-price">1 750 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-parasolbeige"><div class="img-wrapper"><img src="parasolbeige.jpg" alt="Parasol Beige"></div><div class="contenu"><h2 class="card-title">Parasol Beige</h2><p class="description">Parasol élégant idéal pour l'extérieur.</p><div class="footer-card"><p class="prix card-price">2 000 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-parasolrouge"><div class="img-wrapper"><img src="parasolrouge.jpg" alt="Parasol Rouge"></div><div class="contenu"><h2 class="card-title">Parasol Rouge</h2><p class="description">Parasol couleur rouge pour terrasses et jardins.</p><div class="footer-card"><p class="prix card-price">2 000 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-echelle"><div class="img-wrapper"><img src="echelle1.jpg" alt="Echelles"></div><div class="contenu"><h2 class="card-title">Lot de 2 Échelles</h2><p class="description">Échelles pratiques pour chantiers et interventions.</p><div class="footer-card"><p class="prix card-price">2 400 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
+            <div class="carte" id="item-chaises" data-name="Lot de 5 Chaises" data-price="1000">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-chaises')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="chaises1.jpg" alt="Chaises"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Lot de 5 Chaises</h2>
+                    <p class="description">Mobilier pour aménagement de vos bureaux RP.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('chaises', -1)">-</button>
+                        <input type="text" id="qty-chaises" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('chaises', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">1 000 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-chaises', 'Lot de 5 Chaises', 1000, 'chaises')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-bureaux" data-name="Bureaux" data-price="2643">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-bureaux')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="bureaux1.jpg" alt="Bureaux"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Bureaux</h2>
+                    <p class="description">Ensemble complet pour vos services administratifs.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('bureaux', -1)">-</button>
+                        <input type="text" id="qty-bureaux" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('bureaux', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">2 643 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-bureaux', 'Bureaux', 2643, 'bureaux')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-dj" data-name="Matériel DJ" data-price="3210">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-dj')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="dj1.jpg" alt="DJ"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Matériel DJ</h2>
+                    <p class="description">Équipement sonore pour animer vos événements.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('dj', -1)">-</button>
+                        <input type="text" id="qty-dj" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('dj', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">3 210 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-dj', 'Matériel DJ', 3210, 'dj')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-conteneur" data-name="Conteneur" data-price="1200">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-conteneur')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="conteneur1.jpg" alt="Conteneur"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Conteneur</h2>
+                    <p class="description">Conteneur de stockage industriel et maritime.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('conteneur', -1)">-</button>
+                        <input type="text" id="qty-conteneur" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('conteneur', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">1 200 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-conteneur', 'Conteneur', 1200, 'conteneur')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-travaux" data-name="Zone de Travaux" data-price="2400">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-travaux')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="travaux1.jpg" alt="Travaux"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Zone de Travaux</h2>
+                    <p class="description">Matériel complet de balisage pour vos chantiers.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('travaux', -1)">-</button>
+                        <input type="text" id="qty-travaux" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('travaux', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">2 400 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-travaux', 'Zone de Travaux', 2400, 'travaux')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-barriere" data-name="Barrière de Sécurité" data-price="1100">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-barriere')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="barriere1.jpg" alt="Barriere"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Barrière de Sécurité</h2>
+                    <p class="description">Barrières robustes pour sécuriser les périmètres.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('barriere', -1)">-</button>
+                        <input type="text" id="qty-barriere" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('barriere', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">1 100 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-barriere', 'Barrière de Sécurité', 1100, 'barriere')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-bordure" data-name="Bordure Routière" data-price="2000">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-bordure')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="bordure1.jpg" alt="Bordure"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Bordure Routière</h2>
+                    <p class="description">Éléments de bordure pour aménagement urbain.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('bordure', -1)">-</button>
+                        <input type="text" id="qty-bordure" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('bordure', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">2 000 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-bordure', 'Bordure Routière', 2000, 'bordure')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-pneu" data-name="Pneu" data-price="2000">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-pneu')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="pneu1.jpg" alt="Pneu"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Pneu</h2>
+                    <p class="description">Pneus de rechange ou de décor pour vos garages.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('pneu', -1)">-</button>
+                        <input type="text" id="qty-pneu" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('pneu', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">2 000 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-pneu', 'Pneu', 2000, 'pneu')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-table" data-name="Lot de 2 Tables" data-price="1400">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-table')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="table1.jpg" alt="Tables"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Lot de 2 Tables</h2>
+                    <p class="description">Tables solides pour aménager vos espaces.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('table', -1)">-</button>
+                        <input type="text" id="qty-table" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('table', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">1 400 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-table', 'Lot de 2 Tables', 1400, 'table')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-camping" data-name="Équipement Camping" data-price="1183">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-camping')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="camping1.jpg" alt="Camping"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Équipement Camping</h2>
+                    <p class="description">Matériel complet pour vos sorties en plein air.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('camping', -1)">-</button>
+                        <input type="text" id="qty-camping" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('camping', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">1 183 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-camping', 'Équipement Camping', 1183, 'camping')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-conteneurs" data-name="Lot de Conteneurs" data-price="2950">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-conteneurs')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="conteneurs1jpg.png" alt="Lot Conteneurs"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Lot de Conteneurs</h2>
+                    <p class="description">Ensemble de conteneurs pour vos grands dépôts.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('conteneurs', -1)">-</button>
+                        <input type="text" id="qty-conteneurs" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('conteneurs', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">2 950 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-conteneurs', 'Lot de Conteneurs', 2950, 'conteneurs')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-barriererouge" data-name="Barrière Rouge" data-price="1000">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-barriererouge')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="barriererouge1.jpg" alt="Barrière Rouge"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Barrière Rouge</h2>
+                    <p class="description">Barrière de contrôle et de sécurité visuelle.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('barriererouge', -1)">-</button>
+                        <input type="text" id="qty-barriererouge" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('barriererouge', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">1 000 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-barriererouge', 'Barrière Rouge', 1000, 'barriererouge')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-grillage" data-name="Grillage" data-price="1500">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-grillage')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="grillage1.jpg" alt="Grillage"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Grillage</h2>
+                    <p class="description">Clôture grillagée pour sécuriser vos terrains.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('grillage', -1)">-</button>
+                        <input type="text" id="qty-grillage" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('grillage', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">1 500 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-grillage', 'Grillage', 1500, 'grillage')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-bellechaise" data-name="Chaise de Luxe" data-price="1000">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-bellechaise')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="bellechaise1.jpg" alt="Chaise Luxe"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Chaise de Luxe</h2>
+                    <p class="description">Siège de qualité pour intérieur haut de gamme.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('bellechaise', -1)">-</button>
+                        <input type="text" id="qty-bellechaise" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('bellechaise', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">1 000 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-bellechaise', 'Chaise de Luxe', 1000, 'bellechaise')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-livres" data-name="Étagère de Livres" data-price="900">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-livres')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="livres1.jpg" alt="Livres"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Étagère de Livres</h2>
+                    <p class="description">Rangement de livres idéal pour vos bureaux.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('livres', -1)">-</button>
+                        <input type="text" id="qty-livres" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('livres', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">900 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-livres', 'Étagère de Livres', 900, 'livres')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-metal" data-name="Plaques Métalliques" data-price="1230">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-metal')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="metal1.jpg" alt="Metal"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Plaques Métalliques</h2>
+                    <p class="description">Plaques de métal pour constructions solides.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('metal', -1)">-</button>
+                        <input type="text" id="qty-metal" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('metal', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">1 230 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-metal', 'Plaques Métalliques', 1230, 'metal')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-plots" data-name="Lot de 10 Plots" data-price="3640">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-plots')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="plots1.jpg" alt="Plots"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Lot de 10 Plots</h2>
+                    <p class="description">Plots de signalisation pour réguler le trafic.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('plots', -1)">-</button>
+                        <input type="text" id="qty-plots" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('plots', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">3 640 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-plots', 'Lot de 10 Plots', 3640, 'plots')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-poteau" data-name="Poteau" data-price="2000">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-poteau')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="poteau1.jpg" alt="Poteau"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Poteau</h2>
+                    <p class="description">Poteau pour balisage et sécurité des voies.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('poteau', -1)">-</button>
+                        <input type="text" id="qty-poteau" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('poteau', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">2 000 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-poteau', 'Poteau', 2000, 'poteau')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-tablechaise" data-name="Table & Chaise" data-price="4302">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-tablechaise')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="tablechaise1.jpg" alt="Table Chaise"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Table & Chaise</h2>
+                    <p class="description">Ensemble complet pour aménagement d'espace.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('tablechaise', -1)">-</button>
+                        <input type="text" id="qty-tablechaise" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('tablechaise', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">4 302 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-tablechaise', 'Table & Chaise', 4302, 'tablechaise')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-casierrouge" data-name="Casier Rouge" data-price="1400">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-casierrouge')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="casierrouge.jpg" alt="Casier Rouge"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Casier Rouge</h2>
+                    <p class="description">Casier de rangement sécurisé couleur rouge.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('casierrouge', -1)">-</button>
+                        <input type="text" id="qty-casierrouge" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('casierrouge', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">1 400 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-casierrouge', 'Casier Rouge', 1400, 'casierrouge')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-casierblanc" data-name="Casier Blanc" data-price="1400">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-casierblanc')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="casierblanc.jpg" alt="Casier Blanc"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Casier Blanc</h2>
+                    <p class="description">Casier de rangement épuré couleur blanc.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('casierblanc', -1)">-</button>
+                        <input type="text" id="qty-casierblanc" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('casierblanc', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">1 400 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-casierblanc', 'Casier Blanc', 1400, 'casierblanc')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-bureau" data-name="Bureau" data-price="3740">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-bureau')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="bureau1.jpg" alt="Bureau"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Bureau</h2>
+                    <p class="description">Mobilier de travail ergonomique pour intérieurs.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('bureau', -1)">-</button>
+                        <input type="text" id="qty-bureau" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('bureau', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">3 740 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-bureau', 'Bureau', 3740, 'bureau')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-lumiere" data-name="Lumière" data-price="2000">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-lumiere')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="lumiere1.jpg" alt="Lumiere"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Lumière</h2>
+                    <p class="description">Éclairage moderne pour vos bâtiments RP.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('lumiere', -1)">-</button>
+                        <input type="text" id="qty-lumiere" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('lumiere', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">2 000 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-lumiere', 'Lumière', 2000, 'lumiere')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-fontaine" data-name="Fontaine" data-price="1750">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-fontaine')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="fontaine1.jpg" alt="Fontaine"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Fontaine</h2>
+                    <p class="description">Fontaine décorative pour sublimer vos espaces.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('fontaine', -1)">-</button>
+                        <input type="text" id="qty-fontaine" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('fontaine', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">1 750 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-fontaine', 'Fontaine', 1750, 'fontaine')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-parasolbeige" data-name="Parasol Beige" data-price="2000">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-parasolbeige')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="parasolbeige.jpg" alt="Parasol Beige"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Parasol Beige</h2>
+                    <p class="description">Parasol élégant idéal pour l'extérieur.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('parasolbeige', -1)">-</button>
+                        <input type="text" id="qty-parasolbeige" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('parasolbeige', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">2 000 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-parasolbeige', 'Parasol Beige', 2000, 'parasolbeige')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-parasolrouge" data-name="Parasol Rouge" data-price="2000">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-parasolrouge')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="parasolrouge.jpg" alt="Parasol Rouge"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Parasol Rouge</h2>
+                    <p class="description">Parasol couleur rouge pour terrasses et jardins.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('parasolrouge', -1)">-</button>
+                        <input type="text" id="qty-parasolrouge" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('parasolrouge', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">2 000 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-parasolrouge', 'Parasol Rouge', 2000, 'parasolrouge')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="carte" id="item-echelle" data-name="Lot de 2 Échelles" data-price="2400">
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-echelle')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="echelle1.jpg" alt="Echelles"></div>
+                <div class="contenu">
+                    <h2 class="card-title">Lot de 2 Échelles</h2>
+                    <p class="description">Échelles pratiques pour chantiers et interventions.</p>
+                    <div class="quantity-selector">
+                        <button class="qty-btn" onclick="changerQte('echelle', -1)">-</button>
+                        <input type="text" id="qty-echelle" class="qty-input" value="1" readonly>
+                        <button class="qty-btn" onclick="changerQte('echelle', 1)">+</button>
+                    </div>
+                    <div class="footer-card">
+                        <p class="prix card-price">2 400 €</p>
+                        <button class="btn-acheter" onclick="ajouterAuPanier('item-echelle', 'Lot de 2 Échelles', 2400, 'echelle')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
+                    </div>
+                </div>
+            </div>
         </main>
     </section>
 
@@ -544,28 +1105,29 @@
         </div>
 
         <main class="catalogue" id="catalogue-immo">
-            <div class="carte carte-vip-gold" id="item-beach">
+            <div class="carte carte-vip-gold" id="item-beach" data-name="Villa Beach" data-price="130000">
                 <div class="badge-tag gold-tag"><i class="fa-solid fa-crown"></i> OFFRE LUXE VIP</div>
-                <div class="img-wrapper">
-                    <img src="beach1.jpg" alt="Beach">
-                </div>
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-beach')"><i class="fa-solid fa-heart"></i></button></div>
+                <div class="img-wrapper"><img src="beach1.jpg" alt="Beach"></div>
                 <div class="contenu">
                     <h2 class="card-title">Villa Beach <span class="badge-gold">PREMIUM</span></h2>
                     <p class="description">Propriété d'exception en bord de mer. Piscine privée, vue imprenable !</p>
+                    <div class="quantity-selector" style="display:none;"></div>
                     <div class="footer-card">
                         <div class="prix-box">
                             <span class="ancien-prix">150 000 €</span>
                             <span class="prix vip-prix card-price">130 000 €</span>
                         </div>
-                        <a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter btn-vip">
+                        <a href="https://discord.gg/dGEsjW8rJ" target="_blank" class="btn-acheter btn-vip">
                             <i class="fa-solid fa-gem"></i> Réserver VIP
                         </a>
                     </div>
                 </div>
             </div>
 
-            <div class="carte carte-vendu" id="item-bronx">
+            <div class="carte carte-vendu" id="item-bronx" data-name="Résidence Bronx" data-price="100000">
                 <div class="badge-tag vendu-tag"><i class="fa-solid fa-lock"></i> VENDU / ACHETÉ</div>
+                <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-bronx')"><i class="fa-solid fa-heart"></i></button></div>
                 <div class="img-wrapper">
                     <img src="bronx1.jpg" alt="Bronx">
                     <div class="vendu-cyber-overlay">
@@ -581,27 +1143,25 @@
                     <p class="description">Complexe urbain moderne au cœur du centre-ville.</p>
                     <div class="footer-card">
                         <p class="prix prix-vendu card-price">100 000 €</p>
-                        <span class="btn-vendu-disabled">
-                            <i class="fa-solid fa-circle-xmark"></i> Indisponible
-                        </span>
+                        <span class="btn-vendu-disabled"><i class="fa-solid fa-circle-xmark"></i> Indisponible</span>
                     </div>
                 </div>
             </div>
 
-            <div class="carte" id="item-citadelle"><div class="img-wrapper"><img src="citadelle1.jpg" alt="Citadelle"></div><div class="contenu"><h2 class="card-title">La Citadelle</h2><p class="description">Grande propriété fortifiée idéalement située.</p><div class="footer-card"><p class="prix card-price">50 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-lagrande"><div class="img-wrapper"><img src="lagrande.jpg" alt="La Grande"></div><div class="contenu"><h2 class="card-title">La Grande</h2><p class="description">Spacieuse demeure avec de multiples équipements.</p><div class="footer-card"><p class="prix card-price">75 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-manoir"><div class="img-wrapper"><img src="manoir1.jpg" alt="Manoir"></div><div class="contenu"><h2 class="card-title">Le Manoir</h2><p class="description">Bâtisse de charme au cadre confidentiel.</p><div class="footer-card"><p class="prix card-price">50 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-maisonnoir"><div class="img-wrapper"><img src="maisonnoir1.jpg" alt="Maison Noire"></div><div class="contenu"><h2 class="card-title">Maison Noire</h2><p class="description">Maison au style moderne et sombre d'exception.</p><div class="footer-card"><p class="prix card-price">20 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-villamoderne"><div class="img-wrapper"><img src="villamoderne1.jpg" alt="Villa Moderne"></div><div class="contenu"><h2 class="card-title">Villa Moderne</h2><p class="description">Magnifique villa avec design contemporain.</p><div class="footer-card"><p class="prix card-price">40 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-grandmanoir"><div class="img-wrapper"><img src="grandmanoir1.jpg" alt="Grand Manoir"></div><div class="contenu"><h2 class="card-title">Grand Manoir</h2><p class="description">Somptueux domaine vaste et prestigieux.</p><div class="footer-card"><p class="prix card-price">90 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-maisonfoot"><div class="img-wrapper"><img src="maisonfoot1.jpg" alt="Maison Foot"></div><div class="contenu"><h2 class="card-title">Maison du Footballeur</h2><p class="description">Maison en face du concessionnaire avec terrain de foot.</p><div class="footer-card"><p class="prix card-price">60 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-maisonbeige"><div class="img-wrapper"><img src="maisonbeige1.jpg" alt="Maison Beige"></div><div class="contenu"><h2 class="card-title">Maison Beige</h2><p class="description">Jolie maison aux tons chaleureux et accueillants.</p><div class="footer-card"><p class="prix card-price">35 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-maisonecolo"><div class="img-wrapper"><img src="maisonecolo1.jpg" alt="Maison Ecolo"></div><div class="contenu"><h2 class="card-title">Maison Écolo</h2><p class="description">Panneaux solaires intégrés, située en face du stade.</p><div class="footer-card"><p class="prix card-price">25 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-maisoncabano"><div class="img-wrapper"><img src="maisoncabano1.jpg" alt="Maison Cabanon"></div><div class="contenu"><h2 class="card-title">Maison & Cabanon</h2><p class="description">Belle maison disposant d'un cabanon dans le jardin.</p><div class="footer-card"><p class="prix card-price">35 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-maisonvoisine"><div class="img-wrapper"><img src="maisonvoisine1.jpg" alt="Maison Voisine"></div><div class="contenu"><h2 class="card-title">Maison Voisine</h2><p class="description">Maison idéalement située à proximité d'une grande villa.</p><div class="footer-card"><p class="prix card-price">20 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-maisonbleu"><div class="img-wrapper"><img src="maisonbleu1.jpg" alt="Maison Bleue"></div><div class="contenu"><h2 class="card-title">Maison Bleue</h2><p class="description">Maison bleu foncé bénéficiant d'un grand jardin.</p><div class="footer-card"><p class="prix card-price">25 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-maisonecolocabanon"><div class="img-wrapper"><img src="maisonecolocabanon1.jpg" alt="Ecolo Cabanon"></div><div class="contenu"><h2 class="card-title">Maison Écolo & Cabanon</h2><p class="description">Panneaux solaires et cabanon aménagé au jardin.</p><div class="footer-card"><p class="prix card-price">30 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-maisonchill"><div class="img-wrapper"><img src="maisonchill1.jpg" alt="Maison Chill"></div><div class="contenu"><h2 class="card-title">Maison Chill</h2><p class="description">Ambiance détente avec parasol et tables de camping.</p><div class="footer-card"><p class="prix card-price">25 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
+            <div class="carte" id="item-citadelle" data-name="La Citadelle" data-price="50000"><div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-citadelle')"><i class="fa-solid fa-heart"></i></button></div><div class="img-wrapper"><img src="citadelle1.jpg" alt="Citadelle"></div><div class="contenu"><h2 class="card-title">La Citadelle</h2><p class="description">Grande propriété fortifiée idéalement située.</p><div class="footer-card"><p class="prix card-price">50 000 €</p><a href="https://discord.gg/dGEsjW8rJ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
+            <div class="carte" id="item-lagrande" data-name="La Grande" data-price="75000"><div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-lagrande')"><i class="fa-solid fa-heart"></i></button></div><div class="img-wrapper"><img src="lagrande.jpg" alt="La Grande"></div><div class="contenu"><h2 class="card-title">La Grande</h2><p class="description">Spacieuse demeure avec de multiples équipements.</p><div class="footer-card"><p class="prix card-price">75 000 €</p><a href="https://discord.gg/dGEsjW8rJ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
+            <div class="carte" id="item-manoir" data-name="Le Manoir" data-price="50000"><div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-manoir')"><i class="fa-solid fa-heart"></i></button></div><div class="img-wrapper"><img src="manoir1.jpg" alt="Manoir"></div><div class="contenu"><h2 class="card-title">Le Manoir</h2><p class="description">Bâtisse de charme au cadre confidentiel.</p><div class="footer-card"><p class="prix card-price">50 000 €</p><a href="https://discord.gg/dGEsjW8rJ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
+            <div class="carte" id="item-maisonnoir" data-name="Maison Noire" data-price="20000"><div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-maisonnoir')"><i class="fa-solid fa-heart"></i></button></div><div class="img-wrapper"><img src="maisonnoir1.jpg" alt="Maison Noire"></div><div class="contenu"><h2 class="card-title">Maison Noire</h2><p class="description">Maison au style moderne et sombre d'exception.</p><div class="footer-card"><p class="prix card-price">20 000 €</p><a href="https://discord.gg/dGEsjW8rJ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
+            <div class="carte" id="item-villamoderne" data-name="Villa Moderne" data-price="40000"><div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-villamoderne')"><i class="fa-solid fa-heart"></i></button></div><div class="img-wrapper"><img src="villamoderne1.jpg" alt="Villa Moderne"></div><div class="contenu"><h2 class="card-title">Villa Moderne</h2><p class="description">Magnifique villa avec design contemporain.</p><div class="footer-card"><p class="prix card-price">40 000 €</p><a href="https://discord.gg/dGEsjW8rJ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
+            <div class="carte" id="item-grandmanoir" data-name="Grand Manoir" data-price="90000"><div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-grandmanoir')"><i class="fa-solid fa-heart"></i></button></div><div class="img-wrapper"><img src="grandmanoir1.jpg" alt="Grand Manoir"></div><div class="contenu"><h2 class="card-title">Grand Manoir</h2><p class="description">Somptueux domaine vaste et prestigieux.</p><div class="footer-card"><p class="prix card-price">90 000 €</p><a href="https://discord.gg/dGEsjW8rJ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
+            <div class="carte" id="item-maisonfoot" data-name="Maison du Footballeur" data-price="60000"><div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-maisonfoot')"><i class="fa-solid fa-heart"></i></button></div><div class="img-wrapper"><img src="maisonfoot1.jpg" alt="Maison Foot"></div><div class="contenu"><h2 class="card-title">Maison du Footballeur</h2><p class="description">Maison en face du concessionnaire avec terrain de foot.</p><div class="footer-card"><p class="prix card-price">60 000 €</p><a href="https://discord.gg/dGEsjW8rJ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
+            <div class="carte" id="item-maisonbeige" data-name="Maison Beige" data-price="35000"><div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-maisonbeige')"><i class="fa-solid fa-heart"></i></button></div><div class="img-wrapper"><img src="maisonbeige1.jpg" alt="Maison Beige"></div><div class="contenu"><h2 class="card-title">Maison Beige</h2><p class="description">Jolie maison aux tons chaleureux et accueillants.</p><div class="footer-card"><p class="prix card-price">35 000 €</p><a href="https://discord.gg/dGEsjW8rJ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
+            <div class="carte" id="item-maisonecolo" data-name="Maison Écolo" data-price="25000"><div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-maisonecolo')"><i class="fa-solid fa-heart"></i></button></div><div class="img-wrapper"><img src="maisonecolo1.jpg" alt="Maison Ecolo"></div><div class="contenu"><h2 class="card-title">Maison Écolo</h2><p class="description">Panneaux solaires intégrés, située en face du stade.</p><div class="footer-card"><p class="prix card-price">25 000 €</p><a href="https://discord.gg/dGEsjW8rJ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
+            <div class="carte" id="item-maisoncabano" data-name="Maison & Cabanon" data-price="35000"><div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-maisoncabano')"><i class="fa-solid fa-heart"></i></button></div><div class="img-wrapper"><img src="maisoncabano1.jpg" alt="Maison Cabanon"></div><div class="contenu"><h2 class="card-title">Maison & Cabanon</h2><p class="description">Belle maison disposant d'un cabanon dans le jardin.</p><div class="footer-card"><p class="prix card-price">35 000 €</p><a href="https://discord.gg/dGEsjW8rJ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
+            <div class="carte" id="item-maisonvoisine" data-name="Maison Voisine" data-price="20000"><div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-maisonvoisine')"><i class="fa-solid fa-heart"></i></button></div><div class="img-wrapper"><img src="maisonvoisine1.jpg" alt="Maison Voisine"></div><div class="contenu"><h2 class="card-title">Maison Voisine</h2><p class="description">Maison idéalement située à proximité d'une grande villa.</p><div class="footer-card"><p class="prix card-price">20 000 €</p><a href="https://discord.gg/dGEsjW8rJ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
+            <div class="carte" id="item-maisonbleu" data-name="Maison Bleue" data-price="25000"><div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-maisonbleu')"><i class="fa-solid fa-heart"></i></button></div><div class="img-wrapper"><img src="maisonbleu1.jpg" alt="Maison Bleue"></div><div class="contenu"><h2 class="card-title">Maison Bleue</h2><p class="description">Maison bleu foncé bénéficiant d'un grand jardin.</p><div class="footer-card"><p class="prix card-price">25 000 €</p><a href="https://discord.gg/dGEsjW8rJ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
+            <div class="carte" id="item-maisonecolocabanon" data-name="Maison Écolo & Cabanon" data-price="30000"><div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-maisonecolocabanon')"><i class="fa-solid fa-heart"></i></button></div><div class="img-wrapper"><img src="maisonecolocabanon1.jpg" alt="Ecolo Cabanon"></div><div class="contenu"><h2 class="card-title">Maison Écolo & Cabanon</h2><p class="description">Panneaux solaires et cabanon aménagé au jardin.</p><div class="footer-card"><p class="prix card-price">30 000 €</p><a href="https://discord.gg/dGEsjW8rJ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
+            <div class="carte" id="item-maisonchill" data-name="Maison Chill" data-price="25000"><div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, 'item-maisonchill')"><i class="fa-solid fa-heart"></i></button></div><div class="img-wrapper"><img src="maisonchill1.jpg" alt="Maison Chill"></div><div class="contenu"><h2 class="card-title">Maison Chill</h2><p class="description">Ambiance détente avec parasol et tables de camping.</p><div class="footer-card"><p class="prix card-price">25 000 €</p><a href="https://discord.gg/dGEsjW8rJ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
         </main>
     </section>
 
@@ -621,6 +1181,9 @@
                 </button>
                 <button class="admin-tab-btn" onclick="showAdminTab('add-item', this)">
                     <i class="fa-solid fa-circle-plus"></i> Publier un Bien
+                </button>
+                <button class="admin-tab-btn" onclick="showAdminTab('discord-logs', this)">
+                    <i class="fa-brands fa-discord"></i> Salon Bot Logs Discord
                 </button>
                 <button class="admin-tab-btn" onclick="showAdminTab('logs-tab', this)">
                     <i class="fa-solid fa-shield-cat"></i> Journaux d'Activités
@@ -655,15 +1218,38 @@
                             <input type="text" id="article-desc" placeholder="Ex: Magnifique domaine sécurisé au bord de l'eau" required>
                         </div>
                         <div class="admin-input-group">
-                            <label>Prix :</label>
-                            <input type="text" id="article-prix" placeholder="Ex: 50 000 €" required>
+                            <label>Prix (en chiffres ex: 50000) :</label>
+                            <input type="number" id="article-prix" placeholder="Ex: 50000" required>
                         </div>
                         <div class="admin-input-group">
-                            <label>Image (Sélectionnez un fichier sur votre ordinateur) :</label>
+                            <label>Image (Fichier image) :</label>
                             <input type="file" id="article-file" accept="image/*" style="border:none; padding:5px 0;" required>
                         </div>
                         <button type="submit" class="btn-modal-submit"><i class="fa-solid fa-paper-plane"></i> Mettre en Ligne</button>
                     </form>
+                </div>
+            </div>
+
+            <!-- ONGLET CONFIGURATION DISCORD WEBHOOK LOGS -->
+            <div id="tab-discord-logs" class="admin-tab-content">
+                <div class="admin-card">
+                    <h3><i class="fa-brands fa-discord"></i> Configuration du Bot & Webhook Discord</h3>
+                    <p style="color:#8a99ad; font-size:13px; margin-bottom:20px;">
+                        Connectez le site au salon Discord officiel : <a href="https://discord.com/channels/1529249628669739058/1529811712277090355" target="_blank" style="color:#00f2fe;">#1529811712277090355</a> 
+                        via le lien d'invitation <a href="https://discord.gg/dGEsjW8rJ" target="_blank" style="color:#00f2fe;">discord.gg/dGEsjW8rJ</a> pour notifier automatiquement la modération des commandes et favoris.
+                    </p>
+                    <div class="admin-input-group">
+                        <label>URL du Webhook Discord (Salon de logs modération) :</label>
+                        <input type="text" id="webhook-url" placeholder="https://discord.com/api/webhooks/..." value="">
+                    </div>
+                    <div class="admin-input-group">
+                        <label>Activer l'envoi automatique vers le salon Discord :</label>
+                        <select id="webhook-active">
+                            <option value="oui">Activé (Envoi direct)</option>
+                            <option value="non">Désactivé (Simulation locale uniquement)</option>
+                        </select>
+                    </div>
+                    <button type="button" class="btn-modal-submit" onclick="testerWebhookDiscord()"><i class="fa-solid fa-paper-plane"></i> Envoyer un Message de Test au Salon Discord</button>
                 </div>
             </div>
 
@@ -707,7 +1293,36 @@
             </div>
             
             <button class="btn-modal-submit" onclick="validerConnexion()">Se Connecter</button>
-            <button class="btn-modal-close" onclick="fermerModal()">Annuler</button>
+            <button class="btn-modal-close" onclick="fermerModalLogin()">Annuler</button>
+        </div>
+    </div>
+
+    <!-- MODAL DU PANIER -->
+    <div class="modal-overlay" id="cart-modal">
+        <div class="modal-box">
+            <h2><i class="fa-solid fa-bag-shopping"></i> Votre Panier</h2>
+            <p class="subtitle">Récapitulatif de vos builds et aménagements sélectionnés</p>
+            <div id="cart-items-container">
+                <!-- Rempli dynamiquement -->
+            </div>
+            <div class="cart-total-box">
+                <span>TOTAL :</span>
+                <span id="cart-total-price">0 €</span>
+            </div>
+            <button class="btn-modal-submit" onclick="validerPanierDiscord()"><i class="fa-brands fa-discord"></i> Valider et Commander sur Discord</button>
+            <button class="btn-modal-close" onclick="fermerPanierModal()">Fermer</button>
+        </div>
+    </div>
+
+    <!-- MODAL DES FAVORIS -->
+    <div class="modal-overlay" id="fav-modal">
+        <div class="modal-box">
+            <h2><i class="fa-solid fa-heart" style="color:#ff0080;"></i> Vos Favoris</h2>
+            <p class="subtitle">Vos articles sauvegardés pour un accès rapide</p>
+            <div id="fav-items-container">
+                <!-- Rempli dynamiquement -->
+            </div>
+            <button class="btn-modal-close" onclick="fermerFavorisModal()">Fermer</button>
         </div>
     </div>
 
@@ -715,6 +1330,10 @@
         const ID_CORRECT = "BrestBrestStaff";
         const MDP_CORRECT = "StaffRP1234";
         let estConnecte = false;
+
+        // Gestion du Panier et Favoris en mémoire
+        let panier = {}; // { cardId: { name, price, qty } }
+        let favoris = []; // [ cardId, ... ]
 
         function switchPage(pageId, element) {
             if (pageId === 'admin' && !estConnecte) {
@@ -745,6 +1364,210 @@
             btn.classList.add('active');
         }
 
+        // Système de Quantité sur les builds
+        function changerQte(key, delta) {
+            const input = document.getElementById('qty-' + key);
+            if (!input) return;
+            let val = parseInt(input.value) + delta;
+            if (val < 1) val = 1;
+            if (val > 50) val = 50;
+            input.value = val;
+        }
+
+        // Système de Panier
+        function ajouterAuPanier(cardId, name, unitPrice, qtyKey) {
+            const qtyInput = document.getElementById('qty-' + qtyKey);
+            const qty = qtyInput ? parseInt(qtyInput.value) : 1;
+
+            if (panier[cardId]) {
+                panier[cardId].qty += qty;
+            } else {
+                panier[cardId] = { name, price: unitPrice, qty };
+            }
+            majBadges();
+            
+            // Notification visuelle rapide
+            alert(`"${name}" (x${qty}) a bien été ajouté au panier !`);
+            envoyerNotificationDiscordEmbed(`🛍️ **Article ajouté au panier** : **${name}** (Quantité: ${qty}) - Prix unitaire: ${unitPrice} €`);
+        }
+
+        function ouvrirPanierModal() {
+            const container = document.getElementById('cart-items-container');
+            container.innerHTML = '';
+            let total = 0;
+
+            const keys = Object.keys(panier);
+            if (keys.length === 0) {
+                container.innerHTML = `<p style="text-align:center; color:#8a99ad; padding:20px;">Votre panier est actuellement vide.</p>`;
+            } else {
+                keys.forEach(key => {
+                    const item = panier[key];
+                    const itemTotal = item.price * item.qty;
+                    total += itemTotal;
+
+                    const row = document.createElement('div');
+                    row.className = 'cart-item-row';
+                    row.innerHTML = `
+                        <div>
+                            <strong style="color:#fff; font-size:14px; font-family:'Orbitron';">${item.name}</strong><br>
+                            <small style="color:#00f2fe;">${item.qty} x ${item.price.toLocaleString()} €</small>
+                        </div>
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <span style="font-weight:bold; color:#fff;">${itemTotal.toLocaleString()} €</span>
+                            <button onclick="retirerDuPanier('${key}')" style="background:rgba(255,77,77,0.2); border:1px solid #ff4d4d; color:#ff4d4d; border-radius:6px; padding:4px 8px; cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
+                        </div>
+                    `;
+                    container.appendChild(row);
+                });
+            }
+
+            document.getElementById('cart-total-price').innerText = total.toLocaleString() + ' €';
+            document.getElementById('cart-modal').style.display = 'flex';
+        }
+
+        function retirerDuPanier(key) {
+            delete panier[key];
+            majBadges();
+            ouvrirPanierModal();
+        }
+
+        function fermerPanierModal() {
+            document.getElementById('cart-modal').style.display = 'none';
+        }
+
+        function validerPanierDiscord() {
+            let recap = "📋 **NOUVELLE COMMANDE CLIENT - BREST RP**\n";
+            let totalGeneral = 0;
+            
+            for (let key in panier) {
+                const item = panier[key];
+                const sub = item.price * item.qty;
+                totalGeneral += sub;
+                recap += `- ${item.name} x${item.qty} : **${sub.toLocaleString()} €**\n`;
+            }
+            recap += `\n💰 **TOTAL À RÉGLER : ${totalGeneral.toLocaleString()} €**`;
+
+            envoyerNotificationDiscordEmbed(recap);
+            
+            alert("Votre commande a été transmise à la modération sur le salon Discord officiel !");
+            panier = {};
+            majBadges();
+            fermerPanierModal();
+            window.open("https://discord.gg/dGEsjW8rJ", "_blank");
+        }
+
+        // Système de Favoris
+        function toggleFav(btn, cardId) {
+            const carte = document.getElementById(cardId);
+            const name = carte ? carte.getAttribute('data-name') : 'Article';
+
+            const index = favoris.indexOf(cardId);
+            if (index > -1) {
+                favoris.splice(index, 1);
+                btn.classList.remove('active');
+            } else {
+                favoris.push(cardId);
+                btn.classList.add('active');
+                envoyerNotificationDiscordEmbed(`❤️ **Ajout aux favoris** : Un utilisateur a ajouté **${name}** à ses favoris.`);
+            }
+            majBadges();
+        }
+
+        function ouvrirFavorisModal() {
+            const container = document.getElementById('fav-items-container');
+            container.innerHTML = '';
+
+            if (favoris.length === 0) {
+                container.innerHTML = `<p style="text-align:center; color:#8a99ad; padding:20px;">Aucun favori enregistré pour le moment.</p>`;
+            } else {
+                favoris.forEach(cardId => {
+                    const carte = document.getElementById(cardId);
+                    if (!carte) return;
+                    const name = carte.getAttribute('data-name');
+                    const price = carte.getAttribute('data-price');
+                    const img = carte.querySelector('img') ? carte.querySelector('img').src : '';
+
+                    const row = document.createElement('div');
+                    row.className = 'cart-item-row';
+                    row.innerHTML = `
+                        <div style="display:flex; align-items:center; gap:10px;">
+                            <img src="${img}" style="width:40px; height:40px; object-fit:cover; border-radius:6px;" alt="">
+                            <div>
+                                <strong style="color:#fff; font-size:13px;">${name}</strong><br>
+                                <small style="color:#00f2fe;">${parseInt(price).toLocaleString()} €</small>
+                            </div>
+                        </div>
+                        <button onclick="retirerFav('${cardId}')" style="background:rgba(255,77,77,0.2); border:1px solid #ff4d4d; color:#ff4d4d; border-radius:6px; padding:6px 10px; cursor:pointer;"><i class="fa-solid fa-trash"></i></button>
+                    `;
+                    container.appendChild(row);
+                });
+            }
+            document.getElementById('fav-modal').style.display = 'flex';
+        }
+
+        function retirerFav(cardId) {
+            const index = favoris.indexOf(cardId);
+            if (index > -1) favoris.splice(index, 1);
+            
+            const btn = document.querySelector(`#${cardId} .fav-btn`);
+            if (btn) btn.classList.remove('active');
+
+            majBadges();
+            ouvrirFavorisModal();
+        }
+
+        function fermerFavorisModal() {
+            document.getElementById('fav-modal').style.display = 'none';
+        }
+
+        function majBadges() {
+            let totalCartCount = 0;
+            for (let k in panier) totalCartCount += panier[k].qty;
+
+            document.getElementById('cart-count-badge').innerText = totalCartCount;
+            document.getElementById('fav-count-badge').innerText = favoris.length;
+        }
+
+        // Intégration Salon Discord (Webhook Logs / Bot)
+        function envoyerNotificationDiscordEmbed(messageTexte) {
+            const webhookInput = document.getElementById('webhook-url');
+            const activeSelect = document.getElementById('webhook-active');
+            
+            if (!activeSelect || activeSelect.value === 'non') {
+                ajouterLog("Notification Discord simulée (Webhook inactif): " + messageTexte);
+                return;
+            }
+
+            const webhookUrl = webhookInput ? webhookInput.value.trim() : '';
+            if (!webhookUrl) {
+                ajouterLog("Aucune URL de Webhook configurée pour le salon https://discord.com/channels/1529249628669739058/1529811712277090355");
+                return;
+            }
+
+            // Envoi réel vers le webhook configuré pointant vers le salon Discord demandé
+            fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    content: `🔔 **[Brest RP Bot - Salon #1529811712277090355]**\n${messageTexte}`
+                })
+            }).then(res => {
+                if(res.ok) {
+                    ajouterLog("Message transmis avec succès au salon Discord officiel.");
+                } else {
+                    ajouterLog("Erreur lors de la transmission Webhook Discord.");
+                }
+            }).catch(err => {
+                ajouterLog("Exception Webhook Discord: " + err);
+            });
+        }
+
+        function testerWebhookDiscord() {
+            envoyerNotificationDiscordEmbed("🟢 **Test de connexion réussi !** Le site web Brest RP communique correctement avec le salon Discord officiel (`#1529811712277090355`).");
+            alert("Message de test envoyé au salon Discord !");
+        }
+
+        // Gestion Admin connexion & actions
         function ouvrirConnexionAdmin() {
             if (estConnecte) {
                 switchPage('admin');
@@ -753,7 +1576,7 @@
             }
         }
 
-        function fermerModal() {
+        function fermerModalLogin() {
             document.getElementById('login-modal').style.display = 'none';
             document.getElementById('error-msg').style.display = 'none';
         }
@@ -764,7 +1587,7 @@
 
             if (idSaisi === ID_CORRECT && passSaisi === MDP_CORRECT) {
                 estConnecte = true;
-                fermerModal();
+                fermerModalLogin();
                 switchPage('admin');
                 ajouterLog("Connexion réussie au Panel Admin");
                 
@@ -799,7 +1622,7 @@
             const grid = document.getElementById('admin-items-list');
             grid.innerHTML = '';
 
-            const cartes = document.querySelectorAll('.carte');
+            const cartes = document.querySelectorAll('.catalogue .carte');
 
             cartes.forEach((carte, index) => {
                 const title = carte.querySelector('.card-title') ? carte.querySelector('.card-title').innerText : 'Annonce #' + index;
@@ -852,6 +1675,7 @@
             if (nouveauPrix !== null && nouveauPrix.trim() !== '') {
                 if (priceEl) priceEl.innerText = nouveauPrix;
                 ajouterLog(`Prix modifié pour "${titre}" -> ${nouveauPrix}`);
+                envoyerNotificationDiscordEmbed(`⚙️ **Mise à jour staff** : Le prix de **${titre}`} a été mis à jour à **${nouveauPrix}**.`);
                 chargerDashboardAdmin();
             }
         }
@@ -876,6 +1700,7 @@
                     imgWrapper.appendChild(overlay);
                 }
                 ajouterLog(`Statut de "${titre}" changé en: VENDU / INDISPONIBLE`);
+                envoyerNotificationDiscordEmbed(`🏠 **Propriété vendue** : **${titre}** vient d'être marqué comme VENDU.`);
             }
             chargerDashboardAdmin();
         }
@@ -899,6 +1724,7 @@
                     carte.prepend(tag);
                 }
                 ajouterLog(`Mise en promo de "${titre}"`);
+                envoyerNotificationDiscordEmbed(`⚡ **Promo Flash** : L'article **${titre}** est désormais en promotion !`);
             }
             chargerDashboardAdmin();
         }
@@ -921,7 +1747,8 @@
             const cat = document.getElementById('article-categorie').value;
             const nom = document.getElementById('article-nom').value;
             const desc = document.getElementById('article-desc').value;
-            const prix = document.getElementById('article-prix').value;
+            const prixNum = document.getElementById('article-prix').value;
+            const prixFormate = parseInt(prixNum).toLocaleString() + ' €';
             const fileInput = document.getElementById('article-file');
             const file = fileInput.files[0];
 
@@ -936,20 +1763,38 @@
                     const newCard = document.createElement('div');
                     newCard.className = 'carte';
                     newCard.id = uniqueId;
+                    newCard.setAttribute('data-name', nom);
+                    newCard.setAttribute('data-price', prixNum);
+                    
+                    let selectorHtml = '';
+                    if(cat === 'boutique') {
+                        selectorHtml = `
+                            <div class="quantity-selector">
+                                <button class="qty-btn" onclick="changerQte('${uniqueId}', -1)">-</button>
+                                <input type="text" id="qty-${uniqueId}" class="qty-input" value="1" readonly>
+                                <button class="qty-btn" onclick="changerQte('${uniqueId}', 1)">+</button>
+                            </div>
+                        `;
+                    }
+
                     newCard.innerHTML = `
+                        <div class="card-actions-top"><button class="fav-btn" onclick="toggleFav(this, '${uniqueId}')"><i class="fa-solid fa-heart"></i></button></div>
                         <div class="img-wrapper"><img src="${imageSrc}" alt="${nom}"></div>
                         <div class="contenu">
                             <h2 class="card-title">${nom}</h2>
                             <p class="description">${desc}</p>
+                            ${selectorHtml}
                             <div class="footer-card">
-                                <p class="prix card-price">${prix}</p>
-                                <a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Commander</a>
+                                <p class="prix card-price">${prixFormate}</p>
+                                <button class="btn-acheter" onclick="ajouterAuPanier('${uniqueId}', '${nom}', ${prixNum}, '${uniqueId}')"><i class="fa-solid fa-bag-shopping"></i> Panier</button>
                             </div>
                         </div>
                     `;
                     catalogue.prepend(newCard);
 
-                    ajouterLog(`Publication de l'annonce "${nom}" (${prix}) dans ${cat}`);
+                    ajouterLog(`Publication de l'annonce "${nom}" (${prixFormate}) dans ${cat}`);
+                    envoyerNotificationDiscordEmbed(`📢 **Nouvelle annonce disponible** : **${nom}** (${prixFormate}). Venez découvrir ça sur le site !`);
+                    
                     document.getElementById('form-ajout-article').reset();
                     alert("L'annonce a été publiée avec succès !");
                     chargerDashboardAdmin();
@@ -972,9 +1817,8 @@
         }
 
         window.onload = function() {
-            ajouterLog("Système et Panel Admin initialisés avec succès.");
+            ajouterLog("Système et Panel Admin initialisés avec succès (Salon Discord relié : #1529811712277090355).");
         };
     </script>
 </body>
 </html>
-```[cite: 3]
