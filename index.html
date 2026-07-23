@@ -223,7 +223,6 @@
             padding-bottom: 12px;
         }
 
-        /* TABS CONTENT PANELS */
         .admin-tab-content {
             display: none;
         }
@@ -233,7 +232,6 @@
             animation: fadeIn 0.3s ease;
         }
 
-        /* GESTIONNAIRE D'ANNONCES (TABLEAU CYBERPUNK) */
         .item-manage-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
@@ -354,7 +352,6 @@
             box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
         }
 
-        /* Style Cyberpunk sur overlay des cartes indisponibles dynamiques */
         .status-badge-custom {
             display: inline-block;
             padding: 3px 8px;
@@ -489,7 +486,6 @@
         </div>
 
         <main class="catalogue" id="catalogue-builds">
-            <!-- PROMO FLASH -->
             <div class="carte carte-promo" id="item-gav">
                 <div class="badge-tag promo-tag"><i class="fa-solid fa-bolt-lightning"></i> -38% PROMO FLASH</div>
                 <div class="img-wrapper">
@@ -548,7 +544,6 @@
         </div>
 
         <main class="catalogue" id="catalogue-immo">
-            <!-- VILLA BEACH (GOLD ULTRA VIP) -->
             <div class="carte carte-vip-gold" id="item-beach">
                 <div class="badge-tag gold-tag"><i class="fa-solid fa-crown"></i> OFFRE LUXE VIP</div>
                 <div class="img-wrapper">
@@ -569,7 +564,6 @@
                 </div>
             </div>
 
-            <!-- RÉSIDENCE BRONX (VENDU) -->
             <div class="carte carte-vendu" id="item-bronx">
                 <div class="badge-tag vendu-tag"><i class="fa-solid fa-lock"></i> VENDU / ACHETÉ</div>
                 <div class="img-wrapper">
@@ -611,10 +605,9 @@
         </main>
     </section>
 
-    <!-- PAGE 4 : PANEL ADMINISTRATION (ACCÈS SÉCURISÉ NEXT-GEN) -->
+    <!-- PAGE 4 : PANEL ADMINISTRATION -->
     <section id="page-admin" class="page-section">
         <div class="admin-container">
-            <!-- BARRE DE TITRE ADMIN -->
             <div class="admin-header-bar">
                 <h2><i class="fa-solid fa-sliders"></i> PANEL D'ADMINISTRATION CYBERPUNK</h2>
                 <button onclick="deconnexionAdmin()" class="btn-hero" style="background: linear-gradient(135deg, #ff4d4d, #dc3545); color:#fff; border:none; padding:10px 22px; font-size:13px; border-radius:8px;">
@@ -622,7 +615,6 @@
                 </button>
             </div>
 
-            <!-- ONGLETS ADMIN -->
             <div class="admin-nav-tabs">
                 <button class="admin-tab-btn active" onclick="showAdminTab('manage-items', this)">
                     <i class="fa-solid fa-boxes-stacked"></i> Gérer les Annonces
@@ -635,18 +627,14 @@
                 </button>
             </div>
 
-            <!-- ONGLET 1 : GÉRER LES ANNONCES -->
             <div id="tab-manage-items" class="admin-tab-content active">
                 <div class="admin-card">
                     <h3><i class="fa-solid fa-pen-to-square"></i> Modifier / Vendre / Promos / Supprimer les Offres</h3>
                     <p style="color:#8a99ad; font-size:13px; margin-bottom:20px;">Gérez l'état, le prix ou supprimez n'importe quelle annonce de la boutique ou de l'agence immobilière en direct.</p>
-                    <div class="item-manage-grid" id="admin-items-list">
-                        <!-- Généré dynamiquement en JS -->
-                    </div>
+                    <div class="item-manage-grid" id="admin-items-list"></div>
                 </div>
             </div>
 
-            <!-- ONGLET 2 : AJOUTER UNE ANNONCE -->
             <div id="tab-add-item" class="admin-tab-content">
                 <div class="admin-card">
                     <h3><i class="fa-solid fa-plus-circle"></i> Publier une Nouvelle Offre</h3>
@@ -679,7 +667,6 @@
                 </div>
             </div>
 
-            <!-- ONGLET 3 : LOGS -->
             <div id="tab-logs-tab" class="admin-tab-content">
                 <div class="admin-card">
                     <h3><i class="fa-solid fa-list-check"></i> Historique des Actions Staff</h3>
@@ -691,21 +678,18 @@
                                 <th>Action Effectuée</th>
                             </tr>
                         </thead>
-                        <tbody id="logs-container">
-                            <!-- Logs dynamiques -->
-                        </tbody>
+                        <tbody id="logs-container"></tbody>
                     </table>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- Pied de Page -->
     <footer>
         <p>© 2026 Brest RP — Serveur Officiel Emergency Hamburg. Design Ultra-NextGen Cyberpunk.</p>
     </footer>
 
-    <!-- MODAL DE CONNEXION ADMIN STYLISÉ CYBERPUNK -->
+    <!-- MODAL DE CONNEXION ADMIN -->
     <div class="modal-overlay" id="login-modal">
         <div class="modal-box">
             <h2><i class="fa-solid fa-lock"></i> Connexion Staff</h2>
@@ -811,7 +795,6 @@
             container.prepend(tr);
         }
 
-        /* GESTION DYNAMIQUE DES ANNONCES DANS LE PANEL ADMIN */
         function chargerDashboardAdmin() {
             const grid = document.getElementById('admin-items-list');
             grid.innerHTML = '';
@@ -859,7 +842,6 @@
             });
         }
 
-        /* ACTIONS SUR LES CARTES (MODIFIER / VENDU / PROMO / SUPPRIMER) */
         function modifierPrix(id) {
             const carte = document.getElementById(id);
             if (!carte) return;
@@ -995,3 +977,4 @@
     </script>
 </body>
 </html>
+```[cite: 3]
