@@ -367,6 +367,146 @@
         .badge-status-dispo { background: rgba(0, 255, 136, 0.2); color: #00ff88; border: 1px solid #00ff88; }
         .badge-status-vendu { background: rgba(255, 77, 77, 0.2); color: #ff4d4d; border: 1px solid #ff4d4d; }
         .badge-status-promo { background: rgba(255, 0, 200, 0.2); color: #ff00c8; border: 1px solid #ff00c8; }
+
+        /* ============================================================
+           STYLES POUR LE PANIER ET LE FORMULAIRE DE COMMANDE DISCORD
+        ============================================================ */
+        .cart-badge-count {
+            background: #00f2fe;
+            color: #000;
+            border-radius: 50%;
+            padding: 2px 6px;
+            font-size: 11px;
+            font-weight: 800;
+            margin-left: 5px;
+        }
+
+        .cart-drawer {
+            position: fixed;
+            top: 0; right: -400px;
+            width: 380px;
+            height: 100%;
+            background: linear-gradient(145deg, #0f1426, #090c17);
+            border-left: 1px solid rgba(0, 242, 254, 0.3);
+            box-shadow: -10px 0 30px rgba(0, 0, 0, 0.7);
+            z-index: 2500;
+            display: flex;
+            flex-direction: column;
+            transition: right 0.3s ease;
+        }
+
+        .cart-drawer.open {
+            right: 0;
+        }
+
+        .cart-header {
+            padding: 20px;
+            border-bottom: 1px solid rgba(0, 242, 254, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .cart-header h3 {
+            font-family: 'Orbitron', sans-serif;
+            color: #00f2fe;
+            font-size: 18px;
+            margin: 0;
+        }
+
+        .cart-close-btn {
+            background: transparent;
+            border: none;
+            color: #8a99ad;
+            font-size: 18px;
+            cursor: pointer;
+        }
+
+        .cart-close-btn:hover { color: #fff; }
+
+        .cart-body {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .cart-item-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(5, 8, 18, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 10px 15px;
+            border-radius: 10px;
+        }
+
+        .cart-item-info h5 {
+            color: #fff;
+            margin: 0 0 4px 0;
+            font-size: 13px;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .cart-item-info span {
+            color: #00f2fe;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .cart-item-remove {
+            background: rgba(255, 77, 77, 0.15);
+            border: 1px solid rgba(255, 77, 77, 0.3);
+            color: #ff4d4d;
+            padding: 6px 10px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 11px;
+        }
+
+        .cart-footer {
+            padding: 20px;
+            border-top: 1px solid rgba(0, 242, 254, 0.2);
+            background: rgba(5, 8, 18, 0.9);
+        }
+
+        .cart-total-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-family: 'Orbitron', sans-serif;
+            color: #fff;
+            font-size: 15px;
+        }
+
+        .cart-total-row span:last-child {
+            color: #00f2fe;
+        }
+
+        .btn-ajouter-panier {
+            background: linear-gradient(135deg, rgba(0, 242, 254, 0.2) 0%, rgba(79, 172, 254, 0.2) 100%);
+            border: 1px solid #00f2fe !important;
+            color: #00f2fe !important;
+            padding: 10px 16px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            width: 100%;
+            margin-top: 10px;
+        }
+
+        .btn-ajouter-panier:hover {
+            background: #00f2fe;
+            color: #000;
+            box-shadow: 0 0 15px rgba(0, 242, 254, 0.4);
+        }
     </style>
 </head>
 <body>
@@ -401,7 +541,10 @@
         <button class="nav-btn" onclick="switchPage('immobiliere')">
             <i class="fa-solid fa-building"></i> <span>Agence Immobilière</span>
         </button>
-        <a href="https://discord.gg/gfYK88ADYt" target="_blank" rel="noopener noreferrer" class="nav-discord">
+        <button class="nav-btn" onclick="toggleCartDrawer()">
+            <i class="fa-solid fa-basket-shopping"></i> <span>Panier</span> <span id="cart-counter" class="cart-badge-count">0</span>
+        </button>
+        <a href="https://discord.gg/ADjvPSeSrQ" target="_blank" rel="noopener noreferrer" class="nav-discord">
             <i class="fa-brands fa-discord"></i> <span>Discord RP</span>
         </a>
         <button class="nav-btn nav-admin-btn" onclick="ouvrirConnexionAdmin()">
@@ -428,7 +571,7 @@
                     <p class="hero-desc">Découvre une ville ultra-vivante, des métiers exclusifs, une économie dynamique et des biens uniques au monde sur Emergency Hamburg.</p>
                     
                     <div class="hero-actions">
-                        <a href="https://discord.gg/gfYK88ADYt" target="_blank" class="btn-hero btn-hero-primary">
+                        <a href="https://discord.gg/ADjvPSeSrQ" target="_blank" class="btn-hero btn-hero-primary">
                             <i class="fa-brands fa-discord"></i> Rejoindre la Communauté
                         </a>
                         <button class="btn-hero btn-hero-secondary" onclick="copySessionCode()">
@@ -451,11 +594,11 @@
                     </div>
                 </div>
 
-                <a href="https://discord.gg/gfYK88ADYt" target="_blank" class="dash-card discord-card">
+                <a href="https://discord.gg/ADjvPSeSrQ" target="_blank" class="dash-card discord-card">
                     <div class="dash-icon discord-color"><i class="fa-brands fa-discord"></i></div>
                     <div class="dash-info">
                         <span class="dash-label">DISCORD PRINCIPAL</span>
-                        <span class="dash-val">discord.gg/gfYK88ADYt</span>
+                        <span class="dash-val">discord.gg/ADjvPSeSrQ</span>
                         <span class="dash-subtext">Rejoins +100 membres actifs »</span>
                     </div>
                 </a>
@@ -503,40 +646,40 @@
                             <span class="ancien-prix">3 542 €</span>
                             <span class="prix promo-prix card-price">2 200 €</span>
                         </div>
-                        <a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter btn-promo">
-                            <i class="fa-solid fa-fire"></i> Profiter !
-                        </a>
+                        <button class="btn-ajouter-panier" onclick="ajouterAuPanier('Salle de Garde à Vue', '2 200 €')">
+                            <i class="fa-solid fa-cart-plus"></i> Ajouter au panier
+                        </button>
                     </div>
                 </div>
             </div>
 
-            <div class="carte" id="item-chaises"><div class="img-wrapper"><img src="chaises1.jpg" alt="Chaises"></div><div class="contenu"><h2 class="card-title">Lot de 5 Chaises</h2><p class="description">Mobilier pour aménagement de vos bureaux RP.</p><div class="footer-card"><p class="prix card-price">1 000 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-bureaux"><div class="img-wrapper"><img src="bureaux1.jpg" alt="Bureaux"></div><div class="contenu"><h2 class="card-title">Bureaux</h2><p class="description">Ensemble complet pour vos services administratifs.</p><div class="footer-card"><p class="prix card-price">2 643 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-dj"><div class="img-wrapper"><img src="dj1.jpg" alt="DJ"></div><div class="contenu"><h2 class="card-title">Matériel DJ</h2><p class="description">Équipement sonore pour animer vos événements.</p><div class="footer-card"><p class="prix card-price">3 210 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-conteneur"><div class="img-wrapper"><img src="conteneur1.jpg" alt="Conteneur"></div><div class="contenu"><h2 class="card-title">Conteneur</h2><p class="description">Conteneur de stockage industriel et maritime.</p><div class="footer-card"><p class="prix card-price">1 200 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-travaux"><div class="img-wrapper"><img src="travaux1.jpg" alt="Travaux"></div><div class="contenu"><h2 class="card-title">Zone de Travaux</h2><p class="description">Matériel complet de balisage pour vos chantiers.</p><div class="footer-card"><p class="prix card-price">2 400 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-barriere"><div class="img-wrapper"><img src="barriere1.jpg" alt="Barriere"></div><div class="contenu"><h2 class="card-title">Barrière de Sécurité</h2><p class="description">Barrières robustes pour sécuriser les périmètres.</p><div class="footer-card"><p class="prix card-price">1 100 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-bordure"><div class="img-wrapper"><img src="bordure1.jpg" alt="Bordure"></div><div class="contenu"><h2 class="card-title">Bordure Routière</h2><p class="description">Éléments de bordure pour aménagement urbain.</p><div class="footer-card"><p class="prix card-price">2 000 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-pneu"><div class="img-wrapper"><img src="pneu1.jpg" alt="Pneu"></div><div class="contenu"><h2 class="card-title">Pneu</h2><p class="description">Pneus de rechange ou de décor pour vos garages.</p><div class="footer-card"><p class="prix card-price">2 000 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-table"><div class="img-wrapper"><img src="table1.jpg" alt="Tables"></div><div class="contenu"><h2 class="card-title">Lot de 2 Tables</h2><p class="description">Tables solides pour aménager vos espaces.</p><div class="footer-card"><p class="prix card-price">1 400 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-camping"><div class="img-wrapper"><img src="camping1.jpg" alt="Camping"></div><div class="contenu"><h2 class="card-title">Équipement Camping</h2><p class="description">Matériel complet pour vos sorties en plein air.</p><div class="footer-card"><p class="prix card-price">1 183 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-conteneurs"><div class="img-wrapper"><img src="conteneurs1jpg.png" alt="Lot Conteneurs"></div><div class="contenu"><h2 class="card-title">Lot de Conteneurs</h2><p class="description">Ensemble de conteneurs pour vos grands dépôts.</p><div class="footer-card"><p class="prix card-price">2 950 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-barriererouge"><div class="img-wrapper"><img src="barriererouge1.jpg" alt="Barrière Rouge"></div><div class="contenu"><h2 class="card-title">Barrière Rouge</h2><p class="description">Barrière de contrôle et de sécurité visuelle.</p><div class="footer-card"><p class="prix card-price">1 000 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-grillage"><div class="img-wrapper"><img src="grillage1.jpg" alt="Grillage"></div><div class="contenu"><h2 class="card-title">Grillage</h2><p class="description">Clôture grillagée pour sécuriser vos terrains.</p><div class="footer-card"><p class="prix card-price">1 500 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-bellechaise"><div class="img-wrapper"><img src="bellechaise1.jpg" alt="Chaise Luxe"></div><div class="contenu"><h2 class="card-title">Chaise de Luxe</h2><p class="description">Siège de qualité pour intérieur haut de gamme.</p><div class="footer-card"><p class="prix card-price">1 000 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-livres"><div class="img-wrapper"><img src="livres1.jpg" alt="Livres"></div><div class="contenu"><h2 class="card-title">Étagère de Livres</h2><p class="description">Rangement de livres idéal pour vos bureaux.</p><div class="footer-card"><p class="prix card-price">900 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-metal"><div class="img-wrapper"><img src="metal1.jpg" alt="Metal"></div><div class="contenu"><h2 class="card-title">Plaques Métalliques</h2><p class="description">Plaques de métal pour constructions solides.</p><div class="footer-card"><p class="prix card-price">1 230 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-plots"><div class="img-wrapper"><img src="plots1.jpg" alt="Plots"></div><div class="contenu"><h2 class="card-title">Lot de 10 Plots</h2><p class="description">Plots de signalisation pour réguler le trafic.</p><div class="footer-card"><p class="prix card-price">3 640 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-poteau"><div class="img-wrapper"><img src="poteau1.jpg" alt="Poteau"></div><div class="contenu"><h2 class="card-title">Poteau</h2><p class="description">Poteau pour balisage et sécurité des voies.</p><div class="footer-card"><p class="prix card-price">2 000 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-tablechaise"><div class="img-wrapper"><img src="tablechaise1.jpg" alt="Table Chaise"></div><div class="contenu"><h2 class="card-title">Table & Chaise</h2><p class="description">Ensemble complet pour aménagement d'espace.</p><div class="footer-card"><p class="prix card-price">4 302 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-casierrouge"><div class="img-wrapper"><img src="casierrouge.jpg" alt="Casier Rouge"></div><div class="contenu"><h2 class="card-title">Casier Rouge</h2><p class="description">Casier de rangement sécurisé couleur rouge.</p><div class="footer-card"><p class="prix card-price">1 400 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-casierblanc"><div class="img-wrapper"><img src="casierblanc.jpg" alt="Casier Blanc"></div><div class="contenu"><h2 class="card-title">Casier Blanc</h2><p class="description">Casier de rangement épuré couleur blanc.</p><div class="footer-card"><p class="prix card-price">1 400 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-bureau"><div class="img-wrapper"><img src="bureau1.jpg" alt="Bureau"></div><div class="contenu"><h2 class="card-title">Bureau</h2><p class="description">Mobilier de travail ergonomique pour intérieurs.</p><div class="footer-card"><p class="prix card-price">3 740 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-lumiere"><div class="img-wrapper"><img src="lumiere1.jpg" alt="Lumiere"></div><div class="contenu"><h2 class="card-title">Lumière</h2><p class="description">Éclairage moderne pour vos bâtiments RP.</p><div class="footer-card"><p class="prix card-price">2 000 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-fontaine"><div class="img-wrapper"><img src="fontaine1.jpg" alt="Fontaine"></div><div class="contenu"><h2 class="card-title">Fontaine</h2><p class="description">Fontaine décorative pour sublimer vos espaces.</p><div class="footer-card"><p class="prix card-price">1 750 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-parasolbeige"><div class="img-wrapper"><img src="parasolbeige.jpg" alt="Parasol Beige"></div><div class="contenu"><h2 class="card-title">Parasol Beige</h2><p class="description">Parasol élégant idéal pour l'extérieur.</p><div class="footer-card"><p class="prix card-price">2 000 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-parasolrouge"><div class="img-wrapper"><img src="parasolrouge.jpg" alt="Parasol Rouge"></div><div class="contenu"><h2 class="card-title">Parasol Rouge</h2><p class="description">Parasol couleur rouge pour terrasses et jardins.</p><div class="footer-card"><p class="prix card-price">2 000 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
-            <div class="carte" id="item-echelle"><div class="img-wrapper"><img src="echelle1.jpg" alt="Echelles"></div><div class="contenu"><h2 class="card-title">Lot de 2 Échelles</h2><p class="description">Échelles pratiques pour chantiers et interventions.</p><div class="footer-card"><p class="prix card-price">2 400 €</p><a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Acheter</a></div></div></div>
+            <div class="carte" id="item-chaises"><div class="img-wrapper"><img src="chaises1.jpg" alt="Chaises"></div><div class="contenu"><h2 class="card-title">Lot de 5 Chaises</h2><p class="description">Mobilier pour aménagement de vos bureaux RP.</p><div class="footer-card"><p class="prix card-price">1 000 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Lot de 5 Chaises', '1 000 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-bureaux"><div class="img-wrapper"><img src="bureaux1.jpg" alt="Bureaux"></div><div class="contenu"><h2 class="card-title">Bureaux</h2><p class="description">Ensemble complet pour vos services administratifs.</p><div class="footer-card"><p class="prix card-price">2 643 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Bureaux', '2 643 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-dj"><div class="img-wrapper"><img src="dj1.jpg" alt="DJ"></div><div class="contenu"><h2 class="card-title">Matériel DJ</h2><p class="description">Équipement sonore pour animer vos événements.</p><div class="footer-card"><p class="prix card-price">3 210 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Matériel DJ', '3 210 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-conteneur"><div class="img-wrapper"><img src="conteneur1.jpg" alt="Conteneur"></div><div class="contenu"><h2 class="card-title">Conteneur</h2><p class="description">Conteneur de stockage industriel et maritime.</p><div class="footer-card"><p class="prix card-price">1 200 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Conteneur', '1 200 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-travaux"><div class="img-wrapper"><img src="travaux1.jpg" alt="Travaux"></div><div class="contenu"><h2 class="card-title">Zone de Travaux</h2><p class="description">Matériel complet de balisage pour vos chantiers.</p><div class="footer-card"><p class="prix card-price">2 400 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Zone de Travaux', '2 400 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-barriere"><div class="img-wrapper"><img src="barriere1.jpg" alt="Barriere"></div><div class="contenu"><h2 class="card-title">Barrière de Sécurité</h2><p class="description">Barrières robustes pour sécuriser les périmètres.</p><div class="footer-card"><p class="prix card-price">1 100 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Barrière de Sécurité', '1 100 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-bordure"><div class="img-wrapper"><img src="bordure1.jpg" alt="Bordure"></div><div class="contenu"><h2 class="card-title">Bordure Routière</h2><p class="description">Éléments de bordure pour aménagement urbain.</p><div class="footer-card"><p class="prix card-price">2 000 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Bordure Routière', '2 000 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-pneu"><div class="img-wrapper"><img src="pneu1.jpg" alt="Pneu"></div><div class="contenu"><h2 class="card-title">Pneu</h2><p class="description">Pneus de rechange ou de décor pour vos garages.</p><div class="footer-card"><p class="prix card-price">2 000 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Pneu', '2 000 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-table"><div class="img-wrapper"><img src="table1.jpg" alt="Tables"></div><div class="contenu"><h2 class="card-title">Lot de 2 Tables</h2><p class="description">Tables solides pour aménager vos espaces.</p><div class="footer-card"><p class="prix card-price">1 400 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Lot de 2 Tables', '1 400 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-camping"><div class="img-wrapper"><img src="camping1.jpg" alt="Camping"></div><div class="contenu"><h2 class="card-title">Équipement Camping</h2><p class="description">Matériel complet pour vos sorties en plein air.</p><div class="footer-card"><p class="prix card-price">1 183 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Équipement Camping', '1 183 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-conteneurs"><div class="img-wrapper"><img src="conteneurs1jpg.png" alt="Lot Conteneurs"></div><div class="contenu"><h2 class="card-title">Lot de Conteneurs</h2><p class="description">Ensemble de conteneurs pour vos grands dépôts.</p><div class="footer-card"><p class="prix card-price">2 950 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Lot de Conteneurs', '2 950 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-barriererouge"><div class="img-wrapper"><img src="barriererouge1.jpg" alt="Barrière Rouge"></div><div class="contenu"><h2 class="card-title">Barrière Rouge</h2><p class="description">Barrière de contrôle et de sécurité visuelle.</p><div class="footer-card"><p class="prix card-price">1 000 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Barrière Rouge', '1 000 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-grillage"><div class="img-wrapper"><img src="grillage1.jpg" alt="Grillage"></div><div class="contenu"><h2 class="card-title">Grillage</h2><p class="description">Clôture grillagée pour sécuriser vos terrains.</p><div class="footer-card"><p class="prix card-price">1 500 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Grillage', '1 500 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-bellechaise"><div class="img-wrapper"><img src="bellechaise1.jpg" alt="Chaise Luxe"></div><div class="contenu"><h2 class="card-title">Chaise de Luxe</h2><p class="description">Siège de qualité pour intérieur haut de gamme.</p><div class="footer-card"><p class="prix card-price">1 000 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Chaise de Luxe', '1 000 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-livres"><div class="img-wrapper"><img src="livres1.jpg" alt="Livres"></div><div class="contenu"><h2 class="card-title">Étagère de Livres</h2><p class="description">Rangement de livres idéal pour vos bureaux.</p><div class="footer-card"><p class="prix card-price">900 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Étagère de Livres', '900 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-metal"><div class="img-wrapper"><img src="metal1.jpg" alt="Metal"></div><div class="contenu"><h2 class="card-title">Plaques Métalliques</h2><p class="description">Plaques de métal pour constructions solides.</p><div class="footer-card"><p class="prix card-price">1 230 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Plaques Métalliques', '1 230 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-plots"><div class="img-wrapper"><img src="plots1.jpg" alt="Plots"></div><div class="contenu"><h2 class="card-title">Lot de 10 Plots</h2><p class="description">Plots de signalisation pour réguler le trafic.</p><div class="footer-card"><p class="prix card-price">3 640 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Lot de 10 Plots', '3 640 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-poteau"><div class="img-wrapper"><img src="poteau1.jpg" alt="Poteau"></div><div class="contenu"><h2 class="card-title">Poteau</h2><p class="description">Poteau pour balisage et sécurité des voies.</p><div class="footer-card"><p class="prix card-price">2 000 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Poteau', '2 000 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-tablechaise"><div class="img-wrapper"><img src="tablechaise1.jpg" alt="Table Chaise"></div><div class="contenu"><h2 class="card-title">Table & Chaise</h2><p class="description">Ensemble complet pour aménagement d'espace.</p><div class="footer-card"><p class="prix card-price">4 302 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Table & Chaise', '4 302 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-casierrouge"><div class="img-wrapper"><img src="casierrouge.jpg" alt="Casier Rouge"></div><div class="contenu"><h2 class="card-title">Casier Rouge</h2><p class="description">Casier de rangement sécurisé couleur rouge.</p><div class="footer-card"><p class="prix card-price">1 400 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Casier Rouge', '1 400 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-casierblanc"><div class="img-wrapper"><img src="casierblanc.jpg" alt="Casier Blanc"></div><div class="contenu"><h2 class="card-title">Casier Blanc</h2><p class="description">Casier de rangement épuré couleur blanc.</p><div class="footer-card"><p class="prix card-price">1 400 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Casier Blanc', '1 400 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-bureau"><div class="img-wrapper"><img src="bureau1.jpg" alt="Bureau"></div><div class="contenu"><h2 class="card-title">Bureau</h2><p class="description">Mobilier de travail ergonomique pour intérieurs.</p><div class="footer-card"><p class="prix card-price">3 740 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Bureau', '3 740 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-lumiere"><div class="img-wrapper"><img src="lumiere1.jpg" alt="Lumiere"></div><div class="contenu"><h2 class="card-title">Lumière</h2><p class="description">Éclairage moderne pour vos bâtiments RP.</p><div class="footer-card"><p class="prix card-price">2 000 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Lumière', '2 000 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-fontaine"><div class="img-wrapper"><img src="fontaine1.jpg" alt="Fontaine"></div><div class="contenu"><h2 class="card-title">Fontaine</h2><p class="description">Fontaine décorative pour sublimer vos espaces.</p><div class="footer-card"><p class="prix card-price">1 750 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Fontaine', '1 750 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-parasolbeige"><div class="img-wrapper"><img src="parasolbeige.jpg" alt="Parasol Beige"></div><div class="contenu"><h2 class="card-title">Parasol Beige</h2><p class="description">Parasol élégant idéal pour l'extérieur.</p><div class="footer-card"><p class="prix card-price">2 000 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Parasol Beige', '2 000 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-parasolrouge"><div class="img-wrapper"><img src="parasolrouge.jpg" alt="Parasol Rouge"></div><div class="contenu"><h2 class="card-title">Parasol Rouge</h2><p class="description">Parasol couleur rouge pour terrasses et jardins.</p><div class="footer-card"><p class="prix card-price">2 000 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Parasol Rouge', '2 000 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
+            <div class="carte" id="item-echelle"><div class="img-wrapper"><img src="echelle1.jpg" alt="Echelles"></div><div class="contenu"><h2 class="card-title">Lot de 2 Échelles</h2><p class="description">Échelles pratiques pour chantiers et interventions.</p><div class="footer-card"><p class="prix card-price">2 400 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Lot de 2 Échelles', '2 400 €')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button></div></div></div>
         </main>
     </section>
 
@@ -562,9 +705,9 @@
                             <span class="ancien-prix">150 000 €</span>
                             <span class="prix vip-prix card-price">130 000 €</span>
                         </div>
-                        <a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter btn-vip">
-                            <i class="fa-solid fa-gem"></i> Réserver VIP
-                        </a>
+                        <button class="btn-ajouter-panier" onclick="ajouterAuPanier('Villa Beach', '130 000 €')">
+                            <i class="fa-solid fa-cart-plus"></i> Réserver VIP
+                        </button>
                     </div>
                 </div>
             </div>
@@ -594,20 +737,20 @@
                 </div>
             </div>
 
-            <div class="carte" id="item-citadelle"><div class="img-wrapper"><img src="citadelle1.jpg" alt="Citadelle"></div><div class="contenu"><h2 class="card-title">La Citadelle</h2><p class="description">Grande propriété fortifiée idéalement située.</p><div class="footer-card"><p class="prix card-price">50 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-lagrande"><div class="img-wrapper"><img src="lagrande.jpg" alt="La Grande"></div><div class="contenu"><h2 class="card-title">La Grande</h2><p class="description">Spacieuse demeure avec de multiples équipements.</p><div class="footer-card"><p class="prix card-price">75 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-manoir"><div class="img-wrapper"><img src="manoir1.jpg" alt="Manoir"></div><div class="contenu"><h2 class="card-title">Le Manoir</h2><p class="description">Bâtisse de charme au cadre confidentiel.</p><div class="footer-card"><p class="prix card-price">50 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-maisonnoir"><div class="img-wrapper"><img src="maisonnoir1.jpg" alt="Maison Noire"></div><div class="contenu"><h2 class="card-title">Maison Noire</h2><p class="description">Maison au style moderne et sombre d'exception.</p><div class="footer-card"><p class="prix card-price">20 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-villamoderne"><div class="img-wrapper"><img src="villamoderne1.jpg" alt="Villa Moderne"></div><div class="contenu"><h2 class="card-title">Villa Moderne</h2><p class="description">Magnifique villa avec design contemporain.</p><div class="footer-card"><p class="prix card-price">40 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-grandmanoir"><div class="img-wrapper"><img src="grandmanoir1.jpg" alt="Grand Manoir"></div><div class="contenu"><h2 class="card-title">Grand Manoir</h2><p class="description">Somptueux domaine vaste et prestigieux.</p><div class="footer-card"><p class="prix card-price">90 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-maisonfoot"><div class="img-wrapper"><img src="maisonfoot1.jpg" alt="Maison Foot"></div><div class="contenu"><h2 class="card-title">Maison du Footballeur</h2><p class="description">Maison en face du concessionnaire avec terrain de foot.</p><div class="footer-card"><p class="prix card-price">60 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-maisonbeige"><div class="img-wrapper"><img src="maisonbeige1.jpg" alt="Maison Beige"></div><div class="contenu"><h2 class="card-title">Maison Beige</h2><p class="description">Jolie maison aux tons chaleureux et accueillants.</p><div class="footer-card"><p class="prix card-price">35 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-maisonecolo"><div class="img-wrapper"><img src="maisonecolo1.jpg" alt="Maison Ecolo"></div><div class="contenu"><h2 class="card-title">Maison Écolo</h2><p class="description">Panneaux solaires intégrés, située en face du stade.</p><div class="footer-card"><p class="prix card-price">25 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-maisoncabano"><div class="img-wrapper"><img src="maisoncabano1.jpg" alt="Maison Cabanon"></div><div class="contenu"><h2 class="card-title">Maison & Cabanon</h2><p class="description">Belle maison disposant d'un cabanon dans le jardin.</p><div class="footer-card"><p class="prix card-price">35 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-maisonvoisine"><div class="img-wrapper"><img src="maisonvoisine1.jpg" alt="Maison Voisine"></div><div class="contenu"><h2 class="card-title">Maison Voisine</h2><p class="description">Maison idéalement située à proximité d'une grande villa.</p><div class="footer-card"><p class="prix card-price">20 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-maisonbleu"><div class="img-wrapper"><img src="maisonbleu1.jpg" alt="Maison Bleue"></div><div class="contenu"><h2 class="card-title">Maison Bleue</h2><p class="description">Maison bleu foncé bénéficiant d'un grand jardin.</p><div class="footer-card"><p class="prix card-price">25 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-maisonecolocabanon"><div class="img-wrapper"><img src="maisonecolocabanon1.jpg" alt="Ecolo Cabanon"></div><div class="contenu"><h2 class="card-title">Maison Écolo & Cabanon</h2><p class="description">Panneaux solaires et cabanon aménagé au jardin.</p><div class="footer-card"><p class="prix card-price">30 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
-            <div class="carte" id="item-maisonchill"><div class="img-wrapper"><img src="maisonchill1.jpg" alt="Maison Chill"></div><div class="contenu"><h2 class="card-title">Maison Chill</h2><p class="description">Ambiance détente avec parasol et tables de camping.</p><div class="footer-card"><p class="prix card-price">25 000 €</p><a href="https://discord.gg/x63Jg6jES7" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Réserver</a></div></div></div>
+            <div class="carte" id="item-citadelle"><div class="img-wrapper"><img src="citadelle1.jpg" alt="Citadelle"></div><div class="contenu"><h2 class="card-title">La Citadelle</h2><p class="description">Grande propriété fortifiée idéalement située.</p><div class="footer-card"><p class="prix card-price">50 000 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('La Citadelle', '50 000 €')"><i class="fa-solid fa-cart-plus"></i> Réserver</button></div></div></div>
+            <div class="carte" id="item-lagrande"><div class="img-wrapper"><img src="lagrande.jpg" alt="La Grande"></div><div class="contenu"><h2 class="card-title">La Grande</h2><p class="description">Spacieuse demeure avec de multiples équipements.</p><div class="footer-card"><p class="prix card-price">75 000 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('La Grande', '75 000 €')"><i class="fa-solid fa-cart-plus"></i> Réserver</button></div></div></div>
+            <div class="carte" id="item-manoir"><div class="img-wrapper"><img src="manoir1.jpg" alt="Manoir"></div><div class="contenu"><h2 class="card-title">Le Manoir</h2><p class="description">Bâtisse de charme au cadre confidentiel.</p><div class="footer-card"><p class="prix card-price">50 000 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Le Manoir', '50 000 €')"><i class="fa-solid fa-cart-plus"></i> Réserver</button></div></div></div>
+            <div class="carte" id="item-maisonnoir"><div class="img-wrapper"><img src="maisonnoir1.jpg" alt="Maison Noire"></div><div class="contenu"><h2 class="card-title">Maison Noire</h2><p class="description">Maison au style moderne et sombre d'exception.</p><div class="footer-card"><p class="prix card-price">20 000 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Maison Noire', '20 000 €')"><i class="fa-solid fa-cart-plus"></i> Réserver</button></div></div></div>
+            <div class="carte" id="item-villamoderne"><div class="img-wrapper"><img src="villamoderne1.jpg" alt="Villa Moderne"></div><div class="contenu"><h2 class="card-title">Villa Moderne</h2><p class="description">Magnifique villa avec design contemporain.</p><div class="footer-card"><p class="prix card-price">40 000 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Villa Moderne', '40 000 €')"><i class="fa-solid fa-cart-plus"></i> Réserver</button></div></div></div>
+            <div class="carte" id="item-grandmanoir"><div class="img-wrapper"><img src="grandmanoir1.jpg" alt="Grand Manoir"></div><div class="contenu"><h2 class="card-title">Grand Manoir</h2><p class="description">Somptueux domaine vaste et prestigieux.</p><div class="footer-card"><p class="prix card-price">90 000 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Grand Manoir', '90 000 €')"><i class="fa-solid fa-cart-plus"></i> Réserver</button></div></div></div>
+            <div class="carte" id="item-maisonfoot"><div class="img-wrapper"><img src="maisonfoot1.jpg" alt="Maison Foot"></div><div class="contenu"><h2 class="card-title">Maison du Footballeur</h2><p class="description">Maison en face du concessionnaire avec terrain de foot.</p><div class="footer-card"><p class="prix card-price">60 000 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Maison du Footballeur', '60 000 €')"><i class="fa-solid fa-cart-plus"></i> Réserver</button></div></div></div>
+            <div class="carte" id="item-maisonbeige"><div class="img-wrapper"><img src="maisonbeige1.jpg" alt="Maison Beige"></div><div class="contenu"><h2 class="card-title">Maison Beige</h2><p class="description">Jolie maison aux tons chaleureux et accueillants.</p><div class="footer-card"><p class="prix card-price">35 000 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Maison Beige', '35 000 €')"><i class="fa-solid fa-cart-plus"></i> Réserver</button></div></div></div>
+            <div class="carte" id="item-maisonecolo"><div class="img-wrapper"><img src="maisonecolo1.jpg" alt="Maison Ecolo"></div><div class="contenu"><h2 class="card-title">Maison Écolo</h2><p class="description">Panneaux solaires intégrés, située en face du stade.</p><div class="footer-card"><p class="prix card-price">25 000 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Maison Écolo', '25 000 €')"><i class="fa-solid fa-cart-plus"></i> Réserver</button></div></div></div>
+            <div class="carte" id="item-maisoncabano"><div class="img-wrapper"><img src="maisoncabano1.jpg" alt="Maison Cabanon"></div><div class="contenu"><h2 class="card-title">Maison & Cabanon</h2><p class="description">Belle maison disposant d'un cabanon dans le jardin.</p><div class="footer-card"><p class="prix card-price">35 000 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Maison & Cabanon', '35 000 €')"><i class="fa-solid fa-cart-plus"></i> Réserver</button></div></div></div>
+            <div class="carte" id="item-maisonvoisine"><div class="img-wrapper"><img src="maisonvoisine1.jpg" alt="Maison Voisine"></div><div class="contenu"><h2 class="card-title">Maison Voisine</h2><p class="description">Maison idéalement située à proximité d'une grande villa.</p><div class="footer-card"><p class="prix card-price">20 000 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Maison Voisine', '20 000 €')"><i class="fa-solid fa-cart-plus"></i> Réserver</button></div></div></div>
+            <div class="carte" id="item-maisonbleu"><div class="img-wrapper"><img src="maisonbleu1.jpg" alt="Maison Bleue"></div><div class="contenu"><h2 class="card-title">Maison Bleue</h2><p class="description">Maison bleu foncé bénéficiant d'un grand jardin.</p><div class="footer-card"><p class="prix card-price">25 000 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Maison Bleue', '25 000 €')"><i class="fa-solid fa-cart-plus"></i> Réserver</button></div></div></div>
+            <div class="carte" id="item-maisonecolocabanon"><div class="img-wrapper"><img src="maisonecolocabanon1.jpg" alt="Ecolo Cabanon"></div><div class="contenu"><h2 class="card-title">Maison Écolo & Cabanon</h2><p class="description">Panneaux solaires et cabanon aménagé au jardin.</p><div class="footer-card"><p class="prix card-price">30 000 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Maison Écolo & Cabanon', '30 000 €')"><i class="fa-solid fa-cart-plus"></i> Réserver</button></div></div></div>
+            <div class="carte" id="item-maisonchill"><div class="img-wrapper"><img src="maisonchill1.jpg" alt="Maison Chill"></div><div class="contenu"><h2 class="card-title">Maison Chill</h2><p class="description">Ambiance détente avec parasol et tables de camping.</p><div class="footer-card"><p class="prix card-price">25 000 €</p><button class="btn-ajouter-panier" onclick="ajouterAuPanier('Maison Chill', '25 000 €')"><i class="fa-solid fa-cart-plus"></i> Réserver</button></div></div></div>
         </main>
     </section>
 
@@ -700,6 +843,50 @@
         </div>
     </section>
 
+    <!-- TIROIR DU PANIER & FORMULAIRE DE COMMANDE -->
+    <div class="cart-drawer" id="cart-drawer">
+        <div class="cart-header">
+            <h3><i class="fa-solid fa-basket-shopping"></i> Votre Panier</h3>
+            <button class="cart-close-btn" onclick="toggleCartDrawer()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <div class="cart-body" id="cart-items-container">
+            <p style="color: #8a99ad; text-align: center; font-size: 13px; margin-top: 20px;">Votre panier est vide.</p>
+        </div>
+        <div class="cart-footer">
+            <div class="cart-total-row">
+                <span>Total :</span>
+                <span id="cart-total-price">0 €</span>
+            </div>
+            <button class="btn-modal-submit" onclick="ouvrirModalValidation()"><i class="fa-solid fa-check"></i> Valider le Panier</button>
+        </div>
+    </div>
+
+    <!-- MODAL DE VALIDATION DU FORMULAIRE COMMANDE (DISCORD / ROBLOX) -->
+    <div class="modal-overlay" id="modal-validation-commande">
+        <div class="modal-box">
+            <h2><i class="fa-solid fa-paper-plane"></i> Finaliser la Commande</h2>
+            <p class="subtitle">Entrez vos informations pour créer votre salon de commande</p>
+            
+            <form id="form-validation-discord" onsubmit="envoyerFormulaireDiscord(event)">
+                <div class="admin-input-group">
+                    <label>Votre @ Roblox</label>
+                    <input type="text" id="form-roblox" placeholder="Ex: PseudoRoblox" required>
+                </div>
+                <div class="admin-input-group">
+                    <label>Votre @ Discord</label>
+                    <input type="text" id="form-discord" placeholder="Ex: mous.k." required>
+                </div>
+                <div class="admin-input-group">
+                    <label>Message Souhaité</label>
+                    <textarea id="form-message" rows="3" placeholder="Précisez vos attentes, disponibilités ou détails de livraison..." required></textarea>
+                </div>
+                
+                <button type="submit" class="btn-modal-submit">Envoyer sur le serveur</button>
+                <button type="button" class="btn-modal-close" onclick="fermerModalValidation()">Annuler</button>
+            </form>
+        </div>
+    </div>
+
     <!-- Pied de Page -->
     <footer>
         <p>© 2026 Brest RP — Serveur Officiel Emergency Hamburg. Design Ultra-NextGen Cyberpunk.</p>
@@ -731,6 +918,7 @@
         const ID_CORRECT = "BrestBrestStaff";
         const MDP_CORRECT = "StaffRP1234";
         let estConnecte = false;
+        let panier = [];
 
         function switchPage(pageId, element) {
             if (pageId === 'admin' && !estConnecte) {
@@ -809,6 +997,91 @@
                 <td>${action}</td>
             `;
             container.prepend(tr);
+        }
+
+        /* GESTION DU PANIER & FORMULAIRE DISCORD */
+        function toggleCartDrawer() {
+            const drawer = document.getElementById('cart-drawer');
+            drawer.classList.toggle('open');
+        }
+
+        function ajouterAuPanier(nom, prix) {
+            panier.push({ nom, prix });
+            mettreAJourPanierUI();
+            toggleCartDrawer();
+        }
+
+        function retirerDuPanier(index) {
+            panier.splice(index, 1);
+            mettreAJourPanierUI();
+        }
+
+        function mettreAJourPanierUI() {
+            const container = document.getElementById('cart-items-container');
+            const counter = document.getElementById('cart-counter');
+            const totalEl = document.getElementById('cart-total-price');
+
+            counter.innerText = panier.length;
+
+            if (panier.length === 0) {
+                container.innerHTML = '<p style="color: #8a99ad; text-align: center; font-size: 13px; margin-top: 20px;">Votre panier est vide.</p>';
+                totalEl.innerText = '0 €';
+                return;
+            }
+
+            container.innerHTML = '';
+            let total = 0;
+
+            panier.forEach((item, index) => {
+                // Nettoyage rapide pour additionner les prix (conversion string -> number)
+                let prixNum = parseInt(item.prix.replace(/[^0-9]/g, '')) || 0;
+                total += prixNum;
+
+                const row = document.createElement('div');
+                row.className = 'cart-item-row';
+                row.innerHTML = `
+                    <div class="cart-item-info">
+                        <h5>${item.nom}</h5>
+                        <span>${item.prix}</span>
+                    </div>
+                    <button class="cart-item-remove" onclick="retirerDuPanier(${index})"><i class="fa-solid fa-trash"></i></button>
+                `;
+                container.appendChild(row);
+            });
+
+            totalEl.innerText = total.toLocaleString('fr-FR') + ' €';
+        }
+
+        function ouvrirModalValidation() {
+            if (panier.length === 0) {
+                alert("Votre panier est vide ! Veuillez ajouter au moins un build ou bien immobilier.");
+                return;
+            }
+            toggleCartDrawer();
+            document.getElementById('modal-validation-commande').style.display = 'flex';
+        }
+
+        function fermerModalValidation() {
+            document.getElementById('modal-validation-commande').style.display = 'none';
+        }
+
+        function envoyerFormulaireDiscord(e) {
+            e.preventDefault();
+            const roblox = document.getElementById('form-roblox').value;
+            const discord = document.getElementById('form-discord').value;
+            const message = document.getElementById('form-message').value;
+
+            // Note contextuelle technique : Pour envoyer automatiquement un message/formulaire web directement vers un serveur Discord (et créer un salon textuel dynamiquement du type #mous.k.), un bot Discord hébergé ou un webhook connecté via une API backend/Node.js est nécessaire. 
+            // Ici, nous simulons l'action avec succès et redirigeons vers le lien d'invitation Discord fourni : https://discord.gg/ADjvPSeSrQ
+            
+            alert(`Commande validée !\n\nUn salon sera créé sous le nom de "${discord.startsWith('#') ? discord : '#' + discord}" sur le serveur Discord.\nRedirection vers le serveur...`);
+            
+            panier = [];
+            mettreAJourPanierUI();
+            fermerModalValidation();
+            document.getElementById('form-validation-discord').reset();
+
+            window.open('https://discord.gg/ADjvPSeSrQ', '_blank');
         }
 
         /* GESTION DYNAMIQUE DES ANNONCES DANS LE PANEL ADMIN */
@@ -961,7 +1234,7 @@
                             <p class="description">${desc}</p>
                             <div class="footer-card">
                                 <p class="prix card-price">${prix}</p>
-                                <a href="https://discord.gg/K8sBJQZFhQ" target="_blank" class="btn-acheter"><i class="fa-brands fa-discord"></i> Commander</a>
+                                <button class="btn-ajouter-panier" onclick="ajouterAuPanier('${nom.replace(/'/g, "\\'")}', '${prix}')"><i class="fa-solid fa-cart-plus"></i> Ajouter au panier</button>
                             </div>
                         </div>
                     `;
